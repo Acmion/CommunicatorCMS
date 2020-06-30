@@ -1,0 +1,151 @@
+﻿@{ 
+    Func<AppPage, RequestState, string, bool, int, Task<IHtmlContent>> renderNavigationItem = async (a, b, c, d, e) => HtmlString.Empty;
+
+    renderNavigationItem = async (appPage, requestState, cbIdPrefix, topNav, maxDepth) =>
+    {
+
+        if (!appPage.Properties.ShowInNavigationMenus)
+        {
+            return HtmlString.Empty;
+        }
+
+        var cbIdSuffix = 0;
+
+        var activeClass = "";
+        var checkedAttribute = "";
+
+        var layoutProperties = appPage.PropertiesNavItem.Top;
+        var layoutPropertiesShared = appPage.PropertiesNavItem.Shared;
+
+        var subPages = await appPage.GetSubPages();
+
+        if(!topNav)
+        {
+            layoutProperties = appPage.PropertiesNavItem.Side;
+        }
+
+
+        if (appPage.PageUrl == requestState.Url)
+        {
+            activeClass = "hn-active";
+
+            if(!topNav)
+            {
+                checkedAttribute = "checked";
+            }
+        }
+        else if (appPage.PageUrl != "/" && AppPath.IsParentUrl(appPage.PageUrl, requestState.Url))
+        {
+            if(topNav)
+            {
+                activeClass = "hn-active-child";
+            }
+            else
+            {
+                checkedAttribute = "checked";
+                activeClass = "hn-active-child";
+            }
+        }
+
+        var processedUrl = string.IsNullOrEmpty(appPage.Properties.RedirectUrl) ? appPage.PageUrl : appPage.Properties.RedirectUrl;
+
+        return RazorHelper.Body
+        (
+            @<text>
+                <div style="flex: @layoutProperties.SpaceBefore.ToString(Program.AmericanCultureInfo)">
+                </div>
+
+                @{ 
+
+                    if (subPages.Count == 0 || maxDepth == 0)
+                    {
+                        <div class="hn-item @activeClass @layoutProperties.CssClasses @layoutPropertiesShared.CssClasses" style="@layoutProperties.CssInline @layoutPropertiesShared.CssInline">
+                                <a class="hn-link" href="@processedUrl">
+                                    @{
+                                        if (!string.IsNullOrEmpty(appPage.Properties.Icon))
+                                        {
+                                            <span class="hn-icon">
+                                                @appPage.Properties.Icon
+                                            </span>
+                                        }
+                                    }
+                                    <span class="hn-content" data-hn-content="@appPage.Properties.Title">
+                                        @appPage.Properties.Title
+                                    </span>
+                                </a>
+                        </div>
+                    }
+                    else
+                    {
+                        cbIdSuffix++;
+                        <div class="hn-expand">
+                            <input type="checkbox" id="@cbIdPrefix@cbIdSuffix" class="hn-input-state" @checkedAttribute>
+
+                            <div class="hn-item @activeClass @layoutProperties.CssClasses @layoutPropertiesShared.CssClasses" style="@layoutProperties.CssInline @layoutPropertiesShared.CssInline">
+                                <a class="hn-link" href="@processedUrl">
+                                    @{
+                                        if (!string.IsNullOrEmpty(appPage.Properties.Icon))
+                                        {
+                                            <span class="hn-icon">
+                                                @appPage.Properties.Icon
+                                            </span>
+                                        }
+                                    }
+                                    <span class="hn-content" data-hn-content="@appPage.Properties.Title">
+                                        @appPage.Properties.Title
+                                    </span>
+                                </a>
+
+                                <label for="@cbIdPrefix@cbIdSuffix" class="hn-input">
+                                    <span class="hn-input-default">
+                                        <i class="ri-add-line"></i>
+                                    </span>
+                                    <span class="hn-input-active">
+                                        <i class="ri-subtract-line"></i>
+                                    </span>
+                                </label>
+                            </div>
+
+                            <div class="hn-expand-body hn-expand-body-animation-delay @layoutProperties.ExpandCssClasses @layoutPropertiesShared.ExpandCssClasses" style="@layoutProperties.ExpandCssInline @layoutPropertiesShared.ExpandCssInline">
+                                @{
+                                    maxDepth--;
+                                    var childCbSuffix = 0;
+                                    foreach (var subPage in subPages)
+                                    {
+                                        childCbSuffix++;
+                                        Write(await renderNavigationItem(subPage, requestState, cbIdPrefix + cbIdSuffix + childCbSuffix, topNav, maxDepth));
+                                    }
+                                }
+                            </div>
+
+                        </div>
+                    }
+
+                    if (layoutProperties.SpaceAfter != 0)
+                    {
+                        <div style="flex: @layoutProperties.SpaceBefore.ToString(Program.AmericanCultureInfo)">
+                        </div>
+                    }
+                }
+
+            </text>
+        );
+    };
+}
+
+@functions
+{
+    public class HyperNav : AppExtension
+    {
+        public Func<AppPage, RequestState, string, bool, int, Task<IHtmlContent>> RenderNavigationItem { get; }
+
+        public HyperNav(Func<AppPage, RequestState, string, bool, int, Task<IHtmlContent>> renderNavigationItem) : base("HyperNav")
+        {
+            RenderNavigationItem = renderNavigationItem;
+        }
+    }
+}
+
+@{ 
+    App.ExtensionHandler.RegisterAppExtension(new HyperNav(renderNavigationItem));
+}

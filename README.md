@@ -1,2 +1,2 @@
-# CommunicatorCms
-An ASP .NET Core flat file content management system.
+# CommunicatorCMS
+A flat file ASP.NET Core content management system with runtime compilation.
