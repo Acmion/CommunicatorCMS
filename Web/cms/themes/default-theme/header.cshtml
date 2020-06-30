@@ -22,12 +22,15 @@
             <div class="hn-nav container-lg p-0">
                 <div class="hn-section hn-section-brand">
                     @{
-                        if (AppSettings.Logo != "")
+                        if (AppSettings.LogoIcon != "" || AppSettings.LogoContent != "")
                         {
                             <a class="hn-item" href="/">
                                 <span class="hn-link">
+                                    <span class="hn-icon hn-size-auto">
+                                        @Html.Raw(AppSettings.LogoIcon)
+                                    </span>
                                     <span class="hn-content">
-                                        @Html.Raw(AppSettings.Logo)
+                                        @Html.Raw(AppSettings.LogoContent)
                                     </span>
                                 </span>
                             </a>

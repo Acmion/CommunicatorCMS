@@ -7,8 +7,11 @@ namespace CommunicatorCms.Core.Settings
 {
     public static class AppSettings
     {
-        public static string Logo { get; set; } = "";
         public static string Title { get; set; } = "";
+
+        public static string LogoIcon { get; set; } = "";
+        public static string LogoContent { get; set; } = "";
+
         public static string Version { get; set; } = "";
 
         public static int LinuxLocalHostPort { get; set; } = 5000;
