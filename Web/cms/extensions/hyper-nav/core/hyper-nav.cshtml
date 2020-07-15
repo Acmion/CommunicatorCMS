@@ -68,10 +68,20 @@
                                                 @appPage.Properties.Icon
                                             </span>
                                         }
+
+                                        if (topNav)
+                                        {
+                                            <span class="hn-content" data-hn-content="@appPage.Properties.Title">
+                                                @appPage.Properties.Title
+                                            </span>
+                                        }
+                                        else 
+                                        {
+                                            <span class="hn-content">
+                                                @appPage.Properties.Title
+                                            </span>
+                                        }
                                     }
-                                    <span class="hn-content" data-hn-content="@appPage.Properties.Title">
-                                        @appPage.Properties.Title
-                                    </span>
                                 </a>
                         </div>
                     }
@@ -96,7 +106,7 @@
                                     </span>
                                 </a>
 
-                                <label for="@cbIdPrefix@cbIdSuffix" class="hn-input">
+                                <label class="hn-input" for="@cbIdPrefix@cbIdSuffix">
                                     <span class="hn-input-default">
                                         <i class="ri-add-line"></i>
                                     </span>
