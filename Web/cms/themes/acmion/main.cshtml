@@ -6,6 +6,7 @@
 @using CommunicatorCms.Core.Actions;
 @using CommunicatorCms.Core.Application.FileSystem;
 @using CommunicatorCms.Core.Application.Pages;
+@using System.Diagnostics;
 
 @model AppPageModelAndBody
 @inject RequestState RequestState
@@ -13,10 +14,11 @@
 @{
     var currentPage = await RequestState.GetCurrentPage();
     var currentActiveTopPage = await App.Pages.GetByUrl(AppPath.GetUrlWithMaxNumberOfSlashes(currentPage.PageUrl, 2));
-    var a = 0;
 }
 
+
 @{
+
     if (currentPage.Properties.Layout == "LandingPage")
     {
         @Model.Body
@@ -26,23 +28,23 @@
     else
     {
         <div class="container" style="padding-top: 7rem;">
-            <div class="columns">
+            <div class="row">
                 @{
 
                     if (currentPage.Properties.ShowSideNavigationMenu)
                     {
-                        <div class="column col-3 col-md-12">
-                            <nav class="hyper-nav hn-side" style="width: 100%">
+                        <div class="col-md-4 col-lg-3">
+                            <nav class="hn-menu hn-side" style="width: 100%">
                                 <div class="hn-nav">
                                     <div class="hn-section hn-section-body">
                                         @{
-                                            @await App.Extensions.HyperNav.RenderNavigationItem(currentActiveTopPage, RequestState, "side-nav-cb", false, 0)
+                                            @await App.Extensions.HyperNav.RenderCommunicatorCmsNavLayout(currentActiveTopPage, RequestState, "side-nav-cb", false, false, true, 0)
 
                                             var topPages = await currentActiveTopPage.GetSubPages();
 
                                             for (var i = 0; i < topPages.Count; i++)
                                             {
-                                                @await App.Extensions.HyperNav.RenderNavigationItem(topPages[i], RequestState, "side-nav-cb" + i, false, int.MaxValue)
+                                                @await App.Extensions.HyperNav.RenderCommunicatorCmsNavLayout(topPages[i], RequestState, "side-nav-cb" + i, true, false, true, int.MaxValue)
                                             }
 
                                         }
@@ -52,7 +54,7 @@
                         </div>
                     }
                 }
-                <div class="column col-md-12">
+                <div class="col-md-8 col-lg-9">
                     @Model.Body
 
                     @{
@@ -62,9 +64,5 @@
             </div>
         </div>
     }
+
 }
-
-
-
-
-

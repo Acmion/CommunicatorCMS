@@ -12,6 +12,8 @@ namespace CommunicatorCms.Core.Application.Pages
 
         public async Task<AppPage> GetByUrl(string url)
         {
+            // Fix concurrent access (with semaphore?)!! In all handlers.
+
             if (!AppPagesByUrl.ContainsKey(url))
             {
                 if (url.Contains("//"))

@@ -55,10 +55,10 @@
                 </div>
                 <div class="hn-section hn-section-body">
                     @{
-                        @await App.Extensions.HyperNav.RenderNavigationItem(rootPage, RequestState, "top-nav-cb", true, 0)
+                        @await App.Extensions.HyperNav.RenderCommunicatorCmsNavLayout(rootPage, RequestState, "top-nav-cb", false, true, true, 0)
                         foreach (var subPage in await rootPage.GetSubPages())
                         {
-                            @await App.Extensions.HyperNav.RenderNavigationItem(subPage, RequestState, "top-nav-cb", true, int.MaxValue)
+                            @await App.Extensions.HyperNav.RenderCommunicatorCmsNavLayout(subPage, RequestState, "top-nav-cb", true, true, true, int.MaxValue)
                         }
 
                     }
