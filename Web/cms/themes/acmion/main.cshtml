@@ -27,6 +27,14 @@
     }
     else
     {
+        var renderElementCssClasses = "col";
+
+        if (currentPage.Properties.ShowSideNavigationMenu)
+        {
+            renderElementCssClasses = "col-md-8 col-lg-9";
+        }
+
+
         <div class="container" style="padding-top: 7rem;">
             <div class="row">
                 @{
@@ -54,7 +62,7 @@
                         </div>
                     }
                 }
-                <div class="col-md-8 col-lg-9">
+                <div class="@renderElementCssClasses">
                     @Model.Body
 
                     @{
