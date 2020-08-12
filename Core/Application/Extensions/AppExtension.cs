@@ -13,9 +13,15 @@ namespace CommunicatorCms.Core.Application.Extensions
         public string Id { get; }
         public string Name { get; }
 
-        public AppExtension(string name) 
+        public string CmsSettingsRootUrl => AppUrl.Join(UrlSettings.CmsExtensionSettingsUrl, Id);
+        public string ContentSettingsRootUrl => AppUrl.Join(UrlSettings.ContentExtensionSettingsUrl, Id);
+
+        public bool CmsSettingsRootUrlExists => AppUrl.Exists(CmsSettingsRootUrl);
+        public bool ContentSettingsRootUrlExists => AppUrl.Exists(ContentSettingsRootUrl);
+
+        public AppExtension(string id, string name) 
         {
-            Id = GetType().Name;
+            Id = id;
             Name = name;
         }
 

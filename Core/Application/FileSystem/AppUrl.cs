@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using CommunicatorCms.Core.Extensions;
 using CommunicatorCms.Core.Settings;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace CommunicatorCms.Core.Application.FileSystem
 {
@@ -109,6 +112,55 @@ namespace CommunicatorCms.Core.Application.FileSystem
             return ConvertToVirtualUrl(AppPath.ConvertAbsolutePathToAppPath(absAppPath));
         }
 
+        public static string ConvertAppPathToActualUrl(string appPath)
+        {
+            return ConvertToActualUrl(appPath);
+        }
+        public static string ConvertAbsoluteAppPathToActualUrl(string absAppPath)
+        {
+            return ConvertToActualUrl(AppPath.ConvertAbsolutePathToAppPath(absAppPath));
+        }
+
+        public static string CreateGetUrl(string url, Dictionary<string, string> getParameters)
+        {
+            var getString = "";
+
+            foreach (var kv in getParameters)
+            {
+                getString += kv.Key + "=" + kv.Value + "&";
+            }
+
+            return url + "?" + getString;
+        }
+        public static string CreateGetUrl(string url, params (string Key, string Value)[] getParameters)
+        {
+            var getString = "";
+
+            foreach (var kv in getParameters)
+            {
+                getString += kv.Key + "=" + kv.Value + "&";
+            }
+
+            return url + "?" + getString;
+        }
+
+        public static string CreateUrlWithQueryPaths(string url, (string QueryPath, string QueryTitle)[] queryPathsAndTitles, params (string Key, string Value)[] queryParameters) 
+        {
+            var httpValueCollection = HttpUtility.ParseQueryString(string.Empty);
+
+            foreach (var qpt in queryPathsAndTitles)
+            {
+                httpValueCollection.Add(QuerySettings.PathParameter, qpt.QueryPath);
+                httpValueCollection.Add(QuerySettings.TitleParameter, qpt.QueryTitle);
+            }
+
+            foreach (var kv in queryParameters)
+            {
+                httpValueCollection.Add(kv.Key, kv.Value);
+            }
+
+            return url + "?" + httpValueCollection.ToString();
+        }
 
         public static bool Exists(string url)
         {
@@ -158,6 +210,11 @@ namespace CommunicatorCms.Core.Application.FileSystem
         {
             return await AppFile.ReadAllTextAsync(ConvertToAppPath(url));
         }
+        public static async Task<string[]> ReadAllLinesAsync(string url) 
+        {
+            return await AppFile.ReadAllLinesAsync(ConvertToAppPath(url));
+
+        }
 
         public static string RootUrl(string url)
         {
@@ -191,6 +248,20 @@ namespace CommunicatorCms.Core.Application.FileSystem
                     return url;
                 }
             }
+        }
+        public static List<string> AllPartialUrls(string url) 
+        {
+            var current = "";
+            var split = url.Split(Separator, StringSplitOptions.RemoveEmptyEntries);
+            var allPartialUrls = new List<string>(split.Length);
+
+            foreach (var part in split) 
+            {
+                current += part;
+                allPartialUrls.Add(current);
+            }
+
+            return allPartialUrls;
         }
         public static string Join(params string[] urls) 
         {

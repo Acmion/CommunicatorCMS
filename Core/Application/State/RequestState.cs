@@ -8,6 +8,7 @@ using CommunicatorCms.Core.Application.FileSystem;
 using CommunicatorCms.Core.Application.Pages;
 using CommunicatorCms.Core.Settings;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Primitives;
 
 namespace CommunicatorCms.Core
 {
@@ -18,6 +19,9 @@ namespace CommunicatorCms.Core
 
         public dynamic Dynamic { get; set; } = new ExpandoObject();
         public HttpRequest HttpRequest => _httpContextAccessor.HttpContext.Request;
+
+        public bool HasQueryPaths => HttpRequest.Query.ContainsKey(QuerySettings.PathParameter);
+        public bool HasQueryTitles => HttpRequest.Query.ContainsKey(QuerySettings.TitleParameter);
 
         private IHttpContextAccessor _httpContextAccessor;
 
@@ -33,6 +37,8 @@ namespace CommunicatorCms.Core
             return await App.Pages.GetByUrl(Url);
         }
 
+        public StringValues GetQueryPaths() => HttpRequest.Query[QuerySettings.PathParameter];
+        public StringValues GetQueryTitles() => HttpRequest.Query[QuerySettings.TitleParameter];
 
     }
 }

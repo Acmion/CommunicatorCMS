@@ -42,7 +42,7 @@ namespace CommunicatorCms.Core.Application.Extensions
         {
             _appExtensionContainer.Clear();
 
-            var extensionRootUrls = new[] { UrlSettings.CmsExtensionsUrl, UrlSettings.CmsExtensionsUrl };
+            var extensionRootUrls = new[] { UrlSettings.CmsExtensionsUrl, UrlSettings.ContentExtensionsUrl };
 
             foreach (var extRootUrl in extensionRootUrls)
             {
@@ -133,13 +133,13 @@ namespace CommunicatorCms.Core.Application.Extensions
 
         public void RegisterAppExtension(AppExtension appExtension)
         {
-            if (AppExtensionsById.ContainsKey(appExtension.Id))
+            if (AppExtensionsById.ContainsKey(appExtension.Name))
             {
-                AppExtensionsById[appExtension.Id].UnRegister();
+                AppExtensionsById[appExtension.Name].UnRegister();
             }
 
-            _members[appExtension.Id] = appExtension;
-            AppExtensionsById[appExtension.Id] = appExtension;
+            _members[appExtension.Name] = appExtension;
+            AppExtensionsById[appExtension.Name] = appExtension;
         }
 
         public override bool TrySetMember(SetMemberBinder binder, object value)

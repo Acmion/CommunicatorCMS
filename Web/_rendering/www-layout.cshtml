@@ -5,16 +5,16 @@
 
     var currentPage = await RequestState.GetCurrentPage();
 
-    var activeThemeHeadContentFileUrl = AppUrl.Join(UrlSettings.CmsThemesUrl, ThemeSettings.ActiveName, ThemeSettings.ThemeHeadFileName);
+    var activeThemeHeadContentFileUrl = AppUrl.Join(UrlSettings.CmsThemesUrl, AppSettings.Theme, ThemeSettings.ThemeHeadFileName);
     var defaultThemeHeadContentFileUrl = AppUrl.Join(UrlSettings.CmsThemesUrl, ThemeSettings.DefaultName, ThemeSettings.ThemeHeadFileName);
 
-    var activeThemeContentFileUrl = AppUrl.Join(UrlSettings.CmsThemesUrl, ThemeSettings.ActiveName, ThemeSettings.ThemeMainFileName);
+    var activeThemeContentFileUrl = AppUrl.Join(UrlSettings.CmsThemesUrl, AppSettings.Theme, ThemeSettings.ThemeMainFileName);
     var defaultThemeContentFileUrl = AppUrl.Join(UrlSettings.CmsThemesUrl, ThemeSettings.DefaultName, ThemeSettings.ThemeMainFileName);
 
-    var activeThemeHeaderFileUrl = AppUrl.Join(UrlSettings.CmsThemesUrl, ThemeSettings.ActiveName, ThemeSettings.ThemeHeaderFileName);
+    var activeThemeHeaderFileUrl = AppUrl.Join(UrlSettings.CmsThemesUrl, AppSettings.Theme, ThemeSettings.ThemeHeaderFileName);
     var defaultThemeHeaderFileUrl = AppUrl.Join(UrlSettings.CmsThemesUrl, ThemeSettings.DefaultName, ThemeSettings.ThemeHeaderFileName);
 
-    var activeThemeFooterFileUrl = AppUrl.Join(UrlSettings.CmsThemesUrl, ThemeSettings.ActiveName, ThemeSettings.ThemeFooterFileName);
+    var activeThemeFooterFileUrl = AppUrl.Join(UrlSettings.CmsThemesUrl, AppSettings.Theme, ThemeSettings.ThemeFooterFileName);
     var defaultThemeFooterFileUrl = AppUrl.Join(UrlSettings.CmsThemesUrl, ThemeSettings.DefaultName, ThemeSettings.ThemeFooterFileName);
 
     var headContent = await App.Pages.GetByUrl(AppUrl.Join(UrlSettings.ContentGeneralUrl, "head"));

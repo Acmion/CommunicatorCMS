@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CommunicatorCms.Core.Application.Extensions;
 using CommunicatorCms.Core.Application.FileSystem;
 using CommunicatorCms.Core.Application.Pages;
+using CommunicatorCms.Core.Application.UrlRewrite;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CommunicatorCms.Core.Application
@@ -20,6 +21,8 @@ namespace CommunicatorCms.Core.Application
 
         public static AppExtensionHandler ExtensionHandler { get; } = new AppExtensionHandler();
         public static AppExtensionWatcher ExtensionWatcher { get; } = new AppExtensionWatcher();
+
+        public static UrlRewriteHandler UrlRewriteHandler { get; } = new UrlRewriteHandler();
 
         private static bool Launched { get; set; }
         private static SemaphoreSlim PageSemaphoreSlim = new SemaphoreSlim(1, 1);

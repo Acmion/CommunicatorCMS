@@ -18,10 +18,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
-using CommunicatorCms.Core.UrlModification;
 using YamlDotNet.Serialization;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.HttpOverrides;
+using CommunicatorCms.Core.Application;
 
 namespace CommunicatorCms
 {
@@ -63,7 +63,7 @@ namespace CommunicatorCms
 
             if (env.IsDevelopment())
             {
-                staticFileCacheTimeSpan = TimeSpan.FromSeconds(10);
+                staticFileCacheTimeSpan = TimeSpan.FromMinutes(1);
 
                 app.UseDeveloperExceptionPage();
             }
@@ -74,7 +74,7 @@ namespace CommunicatorCms
                 app.UseHsts();
             }
 
-            app.UseUrlRewrites();
+            App.UrlRewriteHandler.UseUrlRewrites(app);
             //ConfigureRewriteOptions(app);
 
             app.UseHttpsRedirection();

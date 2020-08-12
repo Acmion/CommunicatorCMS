@@ -116,8 +116,22 @@ namespace CommunicatorCms.Core.Application.Pages
             return "";
         }
 
+        public bool HasParentPage() 
+        {
+            if (PageUrl == AppUrl.SeparatorString) 
+            {
+                return false;
+            }
+
+            return IsUrlAppPage(AppPath.GetDirectoryName(PageUrl));
+        }
         public async Task<AppPage> GetParentPage()
         {
+            if (PageUrl.EndsWith(AppUrl.Separator)) 
+            {
+                return await App.Pages.GetByUrl(AppPath.GetDirectoryName(AppPath.GetDirectoryName(PageUrl)));
+            }
+
             return await App.Pages.GetByUrl(AppPath.GetDirectoryName(PageUrl));
         }
         public async Task<List<AppPage>> GetSubPages()

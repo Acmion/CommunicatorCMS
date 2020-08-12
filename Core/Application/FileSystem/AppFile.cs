@@ -10,6 +10,7 @@ namespace CommunicatorCms.Core.Application.FileSystem
     {
         public static bool Exists(string appPath) 
         {
+            var a = AppPath.ConvertAppPathToAbsolutePath(appPath);
             return File.Exists(AppPath.ConvertAppPathToAbsolutePath(appPath));
         }
 
@@ -18,9 +19,19 @@ namespace CommunicatorCms.Core.Application.FileSystem
             return File.ReadAllText(AppPath.ConvertAppPathToAbsolutePath(appPath));
         }
 
+        public static string[] ReadAllLines(string appPath)
+        {
+            return File.ReadAllLines(AppPath.ConvertAppPathToAbsolutePath(appPath));
+        }
+
         public static async Task<string> ReadAllTextAsync(string appPath)
         {
             return await File.ReadAllTextAsync(AppPath.ConvertAppPathToAbsolutePath(appPath));
+        }
+
+        public static async Task<string[]> ReadAllLinesAsync(string appPath)
+        {
+            return await File.ReadAllLinesAsync(AppPath.ConvertAppPathToAbsolutePath(appPath));
         }
 
     }

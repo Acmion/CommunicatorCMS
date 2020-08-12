@@ -25,5 +25,8 @@ namespace CommunicatorCms.Core.Application.Pages.Properties
 
         public string ExpandCssInline { get; set; } = "";
         public string ExpandCssClasses { get; set; } = "";
+
+        public string ExpandBodyCssInline { get; set; } = "";
+        public string ExpandBodyCssClasses { get; set; } = "";
     }
 }

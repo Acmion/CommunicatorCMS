@@ -7,7 +7,7 @@ namespace CommunicatorCms.Core.Settings
 {
     public static class QuerySettings
     {
-        public static string ResourceParameter { get; set; } = "Resource";
-        public static string RenderingResourceParameter { get; set; } = "RenderingResource";
+        public static string TitleParameter = "cc-query-title";
+        public static string PathParameter = "cc-query-path";
     }
 }

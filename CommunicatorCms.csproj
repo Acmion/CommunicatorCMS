@@ -11,8 +11,11 @@
   <ItemGroup>
     <Compile Remove="Actions\**" />
     <Compile Remove="Assets\**" />
-    <Compile Remove="Data\**" />
     <Compile Remove="WebSample\**" />
+    <Compile Remove="Web\cms\_general\footer\**" />
+    <Compile Remove="Web\cms\_general\head\**" />
+    <Compile Remove="Web\cms\_general\_rendering\**" />
+    <Compile Remove="Web\content\NewFolder\**" />
     <Compile Remove="Web\extensions\**" />
     <Compile Remove="Web\General\**" />
     <Compile Remove="Web\Pages\**" />
@@ -21,8 +24,11 @@
     <Compile Remove="wwwroot\**" />
     <Content Remove="Actions\**" />
     <Content Remove="Assets\**" />
-    <Content Remove="Data\**" />
     <Content Remove="WebSample\**" />
+    <Content Remove="Web\cms\_general\footer\**" />
+    <Content Remove="Web\cms\_general\head\**" />
+    <Content Remove="Web\cms\_general\_rendering\**" />
+    <Content Remove="Web\content\NewFolder\**" />
     <Content Remove="Web\extensions\**" />
     <Content Remove="Web\General\**" />
     <Content Remove="Web\Pages\**" />
@@ -31,8 +37,11 @@
     <Content Remove="wwwroot\**" />
     <EmbeddedResource Remove="Actions\**" />
     <EmbeddedResource Remove="Assets\**" />
-    <EmbeddedResource Remove="Data\**" />
     <EmbeddedResource Remove="WebSample\**" />
+    <EmbeddedResource Remove="Web\cms\_general\footer\**" />
+    <EmbeddedResource Remove="Web\cms\_general\head\**" />
+    <EmbeddedResource Remove="Web\cms\_general\_rendering\**" />
+    <EmbeddedResource Remove="Web\content\NewFolder\**" />
     <EmbeddedResource Remove="Web\extensions\**" />
     <EmbeddedResource Remove="Web\General\**" />
     <EmbeddedResource Remove="Web\Pages\**" />
@@ -41,8 +50,11 @@
     <EmbeddedResource Remove="wwwroot\**" />
     <None Remove="Actions\**" />
     <None Remove="Assets\**" />
-    <None Remove="Data\**" />
     <None Remove="WebSample\**" />
+    <None Remove="Web\cms\_general\footer\**" />
+    <None Remove="Web\cms\_general\head\**" />
+    <None Remove="Web\cms\_general\_rendering\**" />
+    <None Remove="Web\content\NewFolder\**" />
     <None Remove="Web\extensions\**" />
     <None Remove="Web\General\**" />
     <None Remove="Web\Pages\**" />
@@ -57,47 +69,38 @@
 
   <ItemGroup>
     <Content Remove="Web\cms\www\_index.cshtml" />
+    <Content Remove="Web\content\_general\settings\extensions\custom-url-rewriter\rewrites.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="Web\cms\www\_index.cshtml" />
-    <None Include="Web\content\actions\page\get\content\content0.cshtml" />
-    <None Include="Web\content\communicator-cms\extensions\test-extension\_initializer.cshtml" />
-    <None Include="Web\content\www\content0.cshtml" />
-    <None Include="Web\content\www\documentation\general\device\_index.cshtml" />
-    <None Include="Web\content\www\documentation\general\expand-item\_index.cshtml" />
-    <None Include="Web\content\www\documentation\general\general\device\_index.cshtml" />
-    <None Include="Web\content\www\documentation\general\general\expand-item\_index.cshtml" />
-    <None Include="Web\content\www\documentation\general\general\input-item\_index.cshtml" />
-    <None Include="Web\content\www\documentation\general\general\nav-item\_index.cshtml" />
-    <None Include="Web\content\www\documentation\general\general\structure\_index.cshtml" />
-    <None Include="Web\content\www\documentation\general\general\_index.cshtml" />
-    <None Include="Web\content\www\documentation\general\input-item\_index.cshtml" />
-    <None Include="Web\content\www\documentation\general\nav-item\_index.cshtml" />
-    <None Include="Web\content\www\documentation\general\structure\_index.cshtml" />
-    <None Include="Web\content\www\documentation\general\_index.cshtml" />
-    <None Include="Web\content\www\documentation\side-nav\basic\_index.cshtml" />
-    <None Include="Web\content\www\documentation\side-nav\collapsible\_index.cshtml" />
-    <None Include="Web\content\www\documentation\side-nav\content0.cshtml" />
-    <None Include="Web\content\www\documentation\side-nav\nested\_index.cshtml" />
-    <None Include="Web\content\www\documentation\side-nav\_index.cshtml" />
-    <None Include="Web\content\www\documentation\top-nav\animations\_index.cshtml" />
-    <None Include="Web\content\www\documentation\top-nav\basic\_index.cshtml" />
-    <None Include="Web\content\www\documentation\top-nav\content1.cshtml" />
-    <None Include="Web\content\www\documentation\top-nav\content2.cshtml" />
-    <None Include="Web\content\www\documentation\top-nav\modes\_index.cshtml" />
-    <None Include="Web\content\www\documentation\top-nav\toggleable-menu\_index.cshtml" />
-    <None Include="Web\content\www\documentation\top-nav\_index.cshtml" />
-    <None Include="Web\content\www\documentation\usage\_index.cshtml" />
-    <None Include="Web\content\www\documentation\variables\_index.cshtml" />
-    <None Include="Web\content\www\documentation\_index.cshtml" />
-    <None Include="Web\content\www\examples\content0.cshtml" />
-    <None Include="Web\content\www\examples\_index.cshtml" />
-    <None Include="Web\content\www\features\_index.cshtml" />
-    <None Include="Web\content\www\_index.cshtml" />
-    <None Include="Web\content\_general\footer\content0.cshtml" />
-    <None Include="Web\content\_general\head\meta.cshtml" />
-    <None Include="Web\content\_general\head\styles.cshtml" />
+    <None Include="Web\content\.git\config" />
+    <None Include="Web\content\.git\description" />
+    <None Include="Web\content\.git\HEAD" />
+    <None Include="Web\content\.git\hooks\applypatch-msg.sample" />
+    <None Include="Web\content\.git\hooks\commit-msg.sample" />
+    <None Include="Web\content\.git\hooks\fsmonitor-watchman.sample" />
+    <None Include="Web\content\.git\hooks\post-update.sample" />
+    <None Include="Web\content\.git\hooks\pre-applypatch.sample" />
+    <None Include="Web\content\.git\hooks\pre-commit.sample" />
+    <None Include="Web\content\.git\hooks\pre-push.sample" />
+    <None Include="Web\content\.git\hooks\pre-rebase.sample" />
+    <None Include="Web\content\.git\hooks\pre-receive.sample" />
+    <None Include="Web\content\.git\hooks\prepare-commit-msg.sample" />
+    <None Include="Web\content\.git\hooks\update.sample" />
+    <None Include="Web\content\.git\index" />
+    <None Include="Web\content\.git\info\exclude" />
+    <None Include="Web\content\.git\logs\HEAD" />
+    <None Include="Web\content\.git\logs\refs\heads\master" />
+    <None Include="Web\content\.git\logs\refs\remotes\origin\HEAD" />
+    <None Include="Web\content\.git\objects\50\9e9efdee786a94c7ce2ac6f06b87f1344183a4" />
+    <None Include="Web\content\.git\objects\9c\d5a39e341820bcf77b14c620dd8737d46eebc6" />
+    <None Include="Web\content\.git\objects\df\cfd56f444f9ae40e1082c07fe254cc547136cf" />
+    <None Include="Web\content\.git\objects\e1\4483b1f8efdf7f206e038cef86da17030544a0" />
+    <None Include="Web\content\.git\packed-refs" />
+    <None Include="Web\content\.git\refs\heads\master" />
+    <None Include="Web\content\.git\refs\remotes\origin\HEAD" />
+    <None Include="Web\content\_general\settings\extensions\custom-url-rewriter\rewrites.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -110,14 +113,13 @@
 
   <ItemGroup>
     <Folder Include="Core\Application\Functions\" />
-    <Folder Include="Web\cms\extensions\hyper-nav\static\" />
-    <Folder Include="Web\cms\_general\footer\" />
-    <Folder Include="Web\cms\_general\head\" />
-    <Folder Include="Web\cms\_general\_rendering\" />
-    <Folder Include="Web\content\static\lib\" />
-    <Folder Include="Web\content\communicator-cms\themes\" />
-    <Folder Include="Web\content\themes\" />
-    <Folder Include="Web\content\_general\functions\" />
+    <Folder Include="AppData\FinancialData\CryptoData\" />
+    <Folder Include="AppData\FinancialData\EtfData\" />
+    <Folder Include="AppData\FinancialData\IndexData\" />
+    <Folder Include="AppData\FinancialData\CurrencyData\" />
+    <Folder Include="AppData\FinancialData\StockData\" />
+    <Folder Include="Web\cms\_general\communicator-cms\extensions\hyper-nav\static\" />
+    <Folder Include="Web\content\_general\communicator-cms\themes\" />
   </ItemGroup>
 
 

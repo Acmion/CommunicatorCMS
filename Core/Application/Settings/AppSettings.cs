@@ -8,6 +8,7 @@ namespace CommunicatorCms.Core.Settings
     public static class AppSettings
     {
         public static string Title { get; set; } = "";
+        public static string Theme { get; set; } = ThemeSettings.DefaultName;
 
         public static string LogoIcon { get; set; } = "";
         public static string LogoContent { get; set; } = "";

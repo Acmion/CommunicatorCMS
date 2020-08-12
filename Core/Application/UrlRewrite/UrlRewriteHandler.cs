@@ -8,21 +8,31 @@ using CommunicatorCms.Core.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
-namespace CommunicatorCms.Core.UrlModification
-{
-    public static class UrlRewrites
+namespace CommunicatorCms.Core.Application.UrlRewrite
+{ 
+    public class UrlRewriteHandler
     {
-        public static void UseUrlRewrites(this IApplicationBuilder app) 
+        public IUrlRewriter UrlRewriteCustom { get; set; } = new UrlRewriterNone();
+
+        public void UseUrlRewrites(IApplicationBuilder app) 
         {
             app.Use(async (context, next) =>
             {
-                var requestedUrl = context.Request.Path.Value;
+                var customRewrittenRequest = UrlRewriteCustom.Rewrite(context.Request.Path.Value, context.Request.QueryString.Value);
+
+                var requestedUrl = customRewrittenRequest.Url;
+                var requestedQuery = customRewrittenRequest.Query;
                 var requestedVirtualUrl = AppUrl.ConvertToVirtualUrl(requestedUrl);
                 var requestedActualUrl = AppUrl.ConvertToActualUrl(requestedUrl);
 
                 if (!AppUrl.IsDirectlyServable(requestedActualUrl)) 
                 {
                     return;
+                }
+
+                if (context.Request.QueryString.Value != requestedQuery) 
+                {
+                    context.Request.QueryString = new QueryString(requestedQuery);
                 }
 
                 if (requestedUrl != requestedVirtualUrl) 
@@ -53,6 +63,5 @@ namespace CommunicatorCms.Core.UrlModification
                 await next();
             });
         }
-
     }
 }
