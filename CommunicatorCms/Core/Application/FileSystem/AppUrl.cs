@@ -162,6 +162,19 @@ namespace CommunicatorCms.Core.Application.FileSystem
             return url + "?" + httpValueCollection.ToString();
         }
 
+        public static string CreateQueryWithQueryPathsAndTitles(string queryString, params (string QueryPath, string QueryTitle)[] queryPathsAndTitles)
+        {
+            var httpValueCollection = HttpUtility.ParseQueryString(queryString);
+
+            foreach (var qpt in queryPathsAndTitles)
+            {
+                httpValueCollection.Add(QuerySettings.PathParameter, qpt.QueryPath);
+                httpValueCollection.Add(QuerySettings.TitleParameter, qpt.QueryTitle);
+            }
+
+            return "?" + httpValueCollection.ToString();
+        }
+
         public static bool Exists(string url)
         {
             var appPath = ConvertToAppPath(url);
@@ -263,9 +276,36 @@ namespace CommunicatorCms.Core.Application.FileSystem
 
             return allPartialUrls;
         }
+
         public static string Join(params string[] urls) 
         {
             return string.Join(Separator, urls).Replace("//", SeparatorString);
         }
+        public static string Join(IEnumerable<string> urls)
+        {
+            return string.Join(Separator, urls).Replace("//", SeparatorString);
+        }
+
+        public static string JoinWithTrailingSlash(params string[] urls) 
+        {
+            var joined = Join(urls);
+
+            if (joined.EndsWith(Separator)) 
+            {
+                return joined;
+            }
+            return joined + Separator;
+        }
+        public static string JoinWithTrailingSlash(IEnumerable<string> urls)
+        {
+            var joined = Join(urls);
+
+            if (joined.EndsWith(Separator))
+            {
+                return joined;
+            }
+            return joined + Separator;
+        }
+
     }
 }

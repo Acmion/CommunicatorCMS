@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -15,52 +16,44 @@
     <Compile Remove="Web\cms\_general\footer\**" />
     <Compile Remove="Web\cms\_general\head\**" />
     <Compile Remove="Web\cms\_general\_rendering\**" />
-    <Compile Remove="Web\content\NewFolder\**" />
     <Compile Remove="Web\extensions\**" />
     <Compile Remove="Web\General\**" />
     <Compile Remove="Web\Pages\**" />
     <Compile Remove="Web\Preview\**" />
     <Compile Remove="Web\themes\**" />
-    <Compile Remove="wwwroot\**" />
     <Content Remove="Actions\**" />
     <Content Remove="Assets\**" />
     <Content Remove="WebSample\**" />
     <Content Remove="Web\cms\_general\footer\**" />
     <Content Remove="Web\cms\_general\head\**" />
     <Content Remove="Web\cms\_general\_rendering\**" />
-    <Content Remove="Web\content\NewFolder\**" />
     <Content Remove="Web\extensions\**" />
     <Content Remove="Web\General\**" />
     <Content Remove="Web\Pages\**" />
     <Content Remove="Web\Preview\**" />
     <Content Remove="Web\themes\**" />
-    <Content Remove="wwwroot\**" />
     <EmbeddedResource Remove="Actions\**" />
     <EmbeddedResource Remove="Assets\**" />
     <EmbeddedResource Remove="WebSample\**" />
     <EmbeddedResource Remove="Web\cms\_general\footer\**" />
     <EmbeddedResource Remove="Web\cms\_general\head\**" />
     <EmbeddedResource Remove="Web\cms\_general\_rendering\**" />
-    <EmbeddedResource Remove="Web\content\NewFolder\**" />
     <EmbeddedResource Remove="Web\extensions\**" />
     <EmbeddedResource Remove="Web\General\**" />
     <EmbeddedResource Remove="Web\Pages\**" />
     <EmbeddedResource Remove="Web\Preview\**" />
     <EmbeddedResource Remove="Web\themes\**" />
-    <EmbeddedResource Remove="wwwroot\**" />
     <None Remove="Actions\**" />
     <None Remove="Assets\**" />
     <None Remove="WebSample\**" />
     <None Remove="Web\cms\_general\footer\**" />
     <None Remove="Web\cms\_general\head\**" />
     <None Remove="Web\cms\_general\_rendering\**" />
-    <None Remove="Web\content\NewFolder\**" />
     <None Remove="Web\extensions\**" />
     <None Remove="Web\General\**" />
     <None Remove="Web\Pages\**" />
     <None Remove="Web\Preview\**" />
     <None Remove="Web\themes\**" />
-    <None Remove="wwwroot\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -69,7 +62,13 @@
 
   <ItemGroup>
     <Content Remove="Web\cms\www\_index.cshtml" />
+    <Content Remove="Web\content\www\data\stocks\views\overview.cshtml" />
+    <Content Remove="Web\content\www\data\stocks\views\symbol.cshtml" />
     <Content Remove="Web\content\_general\settings\extensions\custom-url-rewriter\rewrites.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Web\content\static\js\main.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -100,6 +99,8 @@
     <None Include="Web\content\.git\packed-refs" />
     <None Include="Web\content\.git\refs\heads\master" />
     <None Include="Web\content\.git\refs\remotes\origin\HEAD" />
+    <None Include="Web\content\www\data\stocks\views\symbol.cshtml" />
+    <None Include="Web\content\www\data\stocks\views\overview.cshtml" />
     <None Include="Web\content\_general\settings\extensions\custom-url-rewriter\rewrites.cshtml" />
   </ItemGroup>
 
@@ -119,8 +120,29 @@
     <Folder Include="AppData\FinancialData\CurrencyData\" />
     <Folder Include="AppData\FinancialData\StockData\" />
     <Folder Include="Web\cms\_general\communicator-cms\extensions\hyper-nav\static\" />
+    <Folder Include="Web\content\static\lib\" />
     <Folder Include="Web\content\_general\communicator-cms\themes\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="Web\content\static\js\main.ts" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptJSXEmit>React</TypeScriptJSXEmit>
+    <TypeScriptModuleKind />
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
+  </PropertyGroup>
 
 
 

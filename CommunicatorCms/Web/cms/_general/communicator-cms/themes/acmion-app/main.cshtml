@@ -137,27 +137,23 @@
 
                     @if (RequestState.HasQueryPaths)
                     {
-
-                        var parsedQueryString = HttpUtility.ParseQueryString(RequestState.HttpRequest.QueryString.Value);
-                        parsedQueryString.Remove(QuerySettings.PathParameter);
-                        parsedQueryString.Remove(QuerySettings.TitleParameter);
-
                         var queryPaths = RequestState.GetQueryPaths();
                         var queryTitles = RequestState.GetQueryTitles();
+
+                        var combinedQueryPath = "";
 
                         for (var i = 0; i < queryPaths.Count; i++)
                         {
                             var qp = queryPaths[i];
                             var qt = queryTitles[i];
 
-                            parsedQueryString.Add(QuerySettings.PathParameter, qp);
-                            parsedQueryString.Add(QuerySettings.TitleParameter, qt);
+                            combinedQueryPath += qp + AppUrl.SeparatorString;
 
                             <span>
                                 /
                             </span>
 
-                            <a href="@currentPage.PageUrl@parsedQueryString.ToString()">
+                            <a href="@AppUrl.JoinWithTrailingSlash(currentPage.PageUrl, combinedQueryPath)">
                                 @qt
                             </a>
                         }

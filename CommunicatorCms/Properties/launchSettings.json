@@ -20,7 +20,7 @@
                 "ASPNETCORE_ENVIRONMENT": "Development"
             }
         },
-        "CommunicatorCMS":
+        "CommunicatorCms":
         {
             "commandName": "Project",
             "launchBrowser": true,
