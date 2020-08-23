@@ -58,7 +58,7 @@
                         @await App.Extensions.HyperNav.RenderCommunicatorCmsNavLayout(rootPage, RequestState, "top-nav-cb", false, true, true, 0)
                         foreach (var subPage in await rootPage.GetSubPages())
                         {
-                            @await App.Extensions.HyperNav.RenderCommunicatorCmsNavLayout(subPage, RequestState, "top-nav-cb", true, true, true, int.MaxValue)
+                            @await App.Extensions.HyperNav.RenderCommunicatorCmsNavLayout(subPage, RequestState, "top-nav-cb", true, true, true, 0)
                         }
 
                     }
