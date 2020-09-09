@@ -1,0 +1,75 @@
+﻿@inject RequestState RequestState;
+
+@{ 
+    await App.OnRequestStart(Html);
+
+    var currentPage = await RequestState.GetCurrentPage();
+    var currentActiveTopPage = await App.Pages.GetByUrl(AppPath.GetUrlWithMaxNumberOfSlashes(currentPage.PageUrl, 2));
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    @RenderSection(AppPageSettings.HeadBeforeSectionName, false)
+    <partial name="head.cshtml" />
+    @RenderSection(AppPageSettings.HeadAfterSectionName, false)
+    <partial name="meta.cshtml" />
+</head>
+
+<body>
+    <header>
+        <partial name="header.cshtml" />
+    </header>
+    @RenderSection("scripts", required: false)
+    <section>
+        <div class="d-flex position-relative align-items-stretch w-100">
+
+            <partial name="side-nav.cshtml" />
+
+            <div class="page-content-container flex-grow-1 d-flex flex-column" style="overflow: hidden">
+
+                <div class="page-header-container">
+                    <partial name="page-header.cshtml" />
+                </div>
+                <div class="flex-grow-1" style="overflow: scroll">
+                    <div class="page-shadow-top"></div>
+                    <div class="page-shadow-right"></div>
+                    <div class="page-shadow-bottom"></div>
+                    <div class="page-shadow-bottom-touch-device"></div>
+                    <div class="page-shadow-left"></div>
+
+                    <main class="page-body-container p-4 d-inline-block">
+                        @RenderBody()
+
+                        @{
+                            await currentPage.Render(this, this.Html, Model);
+                        }
+
+                    </main>
+
+                    <div class="page-extra">
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <footer>
+        <partial name="footer.cshtml" />
+    </footer>
+
+    <section>
+        <partial name="scripts.cshtml" />
+    </section>
+</body>
+
+</html>
+
+
+
+
+

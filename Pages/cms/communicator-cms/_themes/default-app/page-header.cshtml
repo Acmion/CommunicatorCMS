@@ -1,0 +1,42 @@
+﻿@inject RequestState RequestState
+
+@{
+    var currentPage = await RequestState.GetCurrentPage();
+    var currentActiveTopPage = await App.Pages.GetByUrl(AppPath.GetUrlWithMaxNumberOfSlashes(currentPage.PageUrl, 2));
+}
+
+<div class="page-header">
+    <div>
+        <a class="page-header-title" href="@RequestState.Url">
+            @if (!string.IsNullOrEmpty(currentPage.Properties.Icon))
+            {
+                <span class="title-icon d-flex">
+                    @Html.Raw(currentPage.Properties.Icon)
+                </span>
+            }
+
+            <span class="title-title">
+                @RequestState.Title
+            </span>
+        </a>
+        <div style="height: 0.6rem"></div>
+
+        <div class="page-header-breadcrumb">
+            @foreach (var bi in RequestState.Breadcrumb.BreadcrumbItems.SkipLast(1))
+            {
+                <a href="@bi.Url">
+                    @bi.Title
+                </a>
+                <span>
+                    /
+                </span>
+            }
+            <a href="@RequestState.Breadcrumb.LastBreadcrumbItem.Url">
+                @RequestState.Breadcrumb.LastBreadcrumbItem.Title
+            </a>
+
+        </div>
+    </div>
+
+</div>
+

@@ -1,0 +1,91 @@
+﻿@inject RequestState RequestState;
+
+@{ 
+    await App.OnRequestStart(Html);
+
+    var currentPage = await RequestState.GetCurrentPage();
+    var currentActiveTopPage = await App.Pages.GetByUrl(AppPath.GetUrlWithMaxNumberOfSlashes(currentPage.PageUrl, 2));
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <partial name="head.cshtml" />
+    @RenderSection("", false)
+</head>
+
+<body>
+    <header>
+        <partial name="header.cshtml" />
+    </header>
+
+    <section>
+
+        @if (currentPage.Properties.Layout == "LandingPage")
+        {
+            @RenderBody()
+
+            await currentPage.Render(this, this.Html, Model);
+        }
+        else
+        {
+            var renderElementCssClasses = "col";
+
+            if (currentPage.Properties.ShowSideNavigationMenu)
+            {
+                renderElementCssClasses = "col-md-8 col-lg-9";
+            }
+
+            <div class="container" style="padding-top: 7rem;">
+                <div class="row">
+                    @{
+                        if (currentPage.Properties.ShowSideNavigationMenu)
+                        {
+                            <div class="col-md-4 col-lg-3">
+                                <nav class="hn-menu hn-side" style="width: 100%; position: sticky; top: 7rem">
+                                    <div class="hn-nav">
+                                        <div class="hn-section hn-section-body">
+                                            @{
+                                                @await App.Extensions.HyperNav.RenderCommunicatorCmsNavLayout(currentActiveTopPage, RequestState, "side-nav-cb", false, false, true, 0)
+
+                                                var topPages = await currentActiveTopPage.GetSubPages();
+
+                                                for (var i = 0; i < topPages.Count; i++)
+                                                {
+                                                    @await App.Extensions.HyperNav.RenderCommunicatorCmsNavLayout(topPages[i], RequestState, "side-nav-cb" + i, true, false, true, int.MaxValue)
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </nav>
+                            </div>
+                        }
+                    }
+                    <main class="@renderElementCssClasses">
+                        @RenderBody()
+
+                        @{
+                            await currentPage.Render(this, this.Html, Model);
+                        }
+                    </main>
+                </div>
+            </div>
+        }
+
+    </section>
+
+    <footer>
+        <partial name="footer.cshtml" />
+    </footer>
+
+    <section>
+        <partial name="scripts.cshtml" />
+    </section>
+</body>
+
+</html>
+
+
+
+
+
