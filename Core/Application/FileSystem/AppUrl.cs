@@ -15,7 +15,8 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application.FileSystem
     {
         public static char Separator = '/';
         public static string SeparatorString = "/";
-        public static string[] UnservableStrings = { "/_", "/.", ".cshtml" };
+        public static string[] UnservableContainsStrings = { "/_", "/.git" };
+        public static string[] UnservableEndsWithStrings = { ".cshtml" };
 
         public static bool IsCmsUrl(string url) 
         {
@@ -28,9 +29,15 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application.FileSystem
                 url = url.ReplaceFirst("~/", "/");
             }
 
-            if (url.StartsWith(UrlSettings.WebRootUrl))
+            if (url.StartsWith(GeneralSettings.RazorPagesRootAppPath)) 
             {
-                url = url.ReplaceFirst(UrlSettings.WebRootUrl, "");
+                url = url.ReplaceFirst(GeneralSettings.RazorPagesRootAppPath, "");
+            }
+
+            var indexOfWwwRoot = url.IndexOf(GeneralSettings.WwwRootAppPath);
+            if (indexOfWwwRoot >= 0) 
+            {
+                url = url.Substring(indexOfWwwRoot + GeneralSettings.WwwRootAppPath.Length, url.Length - indexOfWwwRoot - GeneralSettings.WwwRootAppPath.Length);
             }
 
             return url;
@@ -38,14 +45,15 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application.FileSystem
 
         public static string ConvertToAppPath(string url)
         {
-            return AppPath.Join(GeneralSettings.WebRootAppPath, url);
+            return AppPath.Join(GeneralSettings.RazorPagesRootAppPath, url);
         }
         public static string ConvertToAbsolutePath(string url)
         {
-            if (IsCmsUrl(url)) 
+            if (IsCmsUrl(url))
             {
                 return AppPath.Join(CommunicatorCms.CmsAbsolutePath, ConvertToAppPath(url));
             }
+
             return AppPath.Join(CommunicatorCms.AppAbsolutePath, ConvertToAppPath(url));
         }
 
@@ -87,7 +95,15 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application.FileSystem
         }
         public static bool IsDirectlyServable(string url)
         {
-            foreach (var unservableString in UnservableStrings)
+            foreach (var unservableString in UnservableEndsWithStrings)
+            {
+                if (url.EndsWith(unservableString))
+                {
+                    return false;
+                }
+            }
+
+            foreach (var unservableString in UnservableContainsStrings)
             {
                 if (url.Contains(unservableString))
                 {

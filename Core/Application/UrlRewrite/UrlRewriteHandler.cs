@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Acmion.CommunicatorCmsLibrary.Core.Application.FileSystem;
@@ -24,7 +25,7 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application.UrlRewrite
         {
             var customRewrittenRequest = App.UrlRewriteCustom.Rewrite(context.Request.Path.Value, context.Request.QueryString.Value);
 
-            var requestedUrl = customRewrittenRequest.Url;
+            var requestedUrl = AppUrl.ConvertAspNetCoreUrlToActualUrl(customRewrittenRequest.Url);
             var requestedQuery = customRewrittenRequest.Query;
 
             if (!AppUrl.IsDirectlyServable(requestedUrl))
@@ -37,7 +38,7 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application.UrlRewrite
                 context.Request.QueryString = new QueryString(requestedQuery);
             }
 
-            if (AppUrl.IsFile(requestedUrl))
+            if (AppUrl.IsFile(requestedUrl) || File.Exists(CommunicatorCms.AppAbsolutePath + "/wwwroot" + requestedUrl))
             {
                 context.Request.Path = requestedUrl;
             }

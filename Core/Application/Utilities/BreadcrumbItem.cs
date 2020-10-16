@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Acmion.CommunicatorCmsLibrary.Core.Application.Utilities
 {
-    public struct BreadcrumbItem
+    public class BreadcrumbItem
     {
         public string Url { get; set; }
         public string Title { get; set; }

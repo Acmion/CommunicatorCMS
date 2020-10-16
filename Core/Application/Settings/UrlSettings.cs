@@ -7,6 +7,8 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Settings
 {
     public static class UrlSettings
     {
+        public static string ComponentsRootUrl { get; } = "/Components";
+
         public static string CmsRootUrl { get; } = "/cms";
 
         public static string CmsCommunicatorCmsUrl { get; } = "/cms/communicator-cms";
@@ -18,15 +20,21 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Settings
         public static string CmsGeneralSettingsUrl { get; } = "/cms/_general/settings";
         public static string CmsGeneralSettingsExtensionsUrl { get; } = "/cms/_general/settings/extensions";
 
-        public static string WebRootUrl { get; } = "/";
+        public static string ContentRootUrl { get; } = "/";
 
-        public static string WebCommunicatorCmsUrl { get; } = "/communicator-cms";
-        public static string WebCommunicatorCmsApiUrl { get; } = "/communicator-cms/api";
-        public static string WebCommunicatorCmsThemesUrl { get; } = "/communicator-cms/_themes";
-        public static string WebCommunicatorCmsExtensionsUrl { get; } = "/communicator-cms/_extensions";
+        public static string ContentCommunicatorCmsUrl { get; } = "/communicator-cms";
+        public static string ContentCommunicatorCmsApiUrl { get; } = "/communicator-cms/api";
+        public static string ContentCommunicatorCmsThemesUrl { get; } = "/communicator-cms/_themes";
+        public static string ContentCommunicatorCmsExtensionsUrl { get; } = "/communicator-cms/_extensions";
 
-        public static string WebGeneralUrl { get; } = "/_general";
-        public static string WebGeneralSettingsUrl { get; } = "/_general/settings";
-        public static string WebGeneralSettingsExtensionUrl { get; } = "/_general/settings/extensions";
+        public static string ContentGeneralUrl { get; } = "/_general";
+        public static string ContentGeneralSettingsUrl { get; } = "/_general/settings";
+        public static string ContentGeneralSettingsExtensionUrl { get; } = "/_general/settings/extensions";
+
+        public static string ContentGeneralFooterFileUrl = "/_general/footer/footer.cshtml";
+        public static string ContentGeneralHeadFileUrl = "/_general/head/head.cshtml";
+        public static string ContentGeneralMetaFileUrl = "/_general/meta/meta.cshtml";
+        public static string ContentGeneralScriptsFileUrl = "/_general/scripts/scripts.cshtml";
+
     }
 }

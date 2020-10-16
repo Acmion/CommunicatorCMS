@@ -8,7 +8,9 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Settings
 {
     public static class GeneralSettings
     {
-        public static string WebRootAppPath { get; } = "/Pages";
+        public static string RazorPagesRootAppPath { get; } = "/Pages";
+        public static string ComponentsRootAppPath { get; } = "/Components";
+        public static string WwwRootAppPath { get; } = "/wwwroot";
 
     }
 }

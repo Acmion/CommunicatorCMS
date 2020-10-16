@@ -9,7 +9,7 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application.Pages
     public class AppPageHandler
     {
         public Dictionary<string, AppPage> AppPagesByUrl { get; } = new Dictionary<string, AppPage>();
-        public Dictionary<AppPageBaseUrlAndParameterValues, AppPage> AppPagesWithParametersByBaseUrlAndParameters { get; } = new Dictionary<AppPageBaseUrlAndParameterValues, AppPage>();
+        public Dictionary<string, AppPage> AppPagesByActualUrl { get; } = new Dictionary<string, AppPage>();
 
         public async Task<AppPage> GetByUrl(string url)
         {
@@ -30,20 +30,20 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application.Pages
 
                 AppPagesByUrl[url] = sourcePage;
                 AppPagesByUrl[sourcePage.PageUrl] = sourcePage;
+
+                return AppPagesByUrl[url];
             }
             else 
             {
-                var baseUrlAndParameters = AppPage.GetBaseUrlAndParameterValues(url);
+                var actualUrl = AppPage.GetActualAppPageUrl(url);
 
-                if (!AppPagesWithParametersByBaseUrlAndParameters.ContainsKey(baseUrlAndParameters))
+                if (!AppPagesByActualUrl.ContainsKey(actualUrl))
                 {
-                    AppPagesWithParametersByBaseUrlAndParameters[baseUrlAndParameters] = await AppPage.LoadFromBaseUrlAndParameters(baseUrlAndParameters);
+                    AppPagesByActualUrl[actualUrl] = await AppPage.LoadFromUrl(actualUrl);
                 }
 
-                return AppPagesWithParametersByBaseUrlAndParameters[baseUrlAndParameters];
+                return AppPagesByActualUrl[actualUrl];
             }
-
-            return AppPagesByUrl[url];
         }
         public async Task<AppPage> GetByAppPath(string appPath)
         {
@@ -55,7 +55,7 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application.Pages
         public void Clear() 
         {
             AppPagesByUrl.Clear();
-            AppPagesWithParametersByBaseUrlAndParameters.Clear();
+            AppPagesByActualUrl.Clear();
         }
         public void RemoveUrl(string url) 
         {
@@ -70,12 +70,12 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application.Pages
 
             AppPagesByUrl.Remove(url);
             AppPagesByUrl.Remove(fixedUrl);
+                                            
+            var actualUrl = AppPage.GetActualAppPageUrl(url);
+            var fixedActualUrl = AppPage.GetActualAppPageUrl(actualUrl);
 
-            var baseUrlAndParameters = AppPage.GetBaseUrlAndParameterValues(url);
-            var fixedBaseUrlAndParameters = AppPage.GetBaseUrlAndParameterValues(fixedUrl);
-
-            AppPagesWithParametersByBaseUrlAndParameters.Remove(baseUrlAndParameters);
-            AppPagesWithParametersByBaseUrlAndParameters.Remove(fixedBaseUrlAndParameters);
+            AppPagesByActualUrl.Remove(actualUrl);
+            AppPagesByActualUrl.Remove(fixedActualUrl);
         }
     }
 }

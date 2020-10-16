@@ -72,7 +72,7 @@ namespace Acmion.CommunicatorCmsLibrary
 
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(Path.Join(AppAbsolutePath, GeneralSettings.WebRootAppPath)),
+                FileProvider = new PhysicalFileProvider(Path.Join(AppAbsolutePath, GeneralSettings.RazorPagesRootAppPath)),
                 RequestPath = "",
                 OnPrepareResponse = ctx =>
                 {

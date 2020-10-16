@@ -7,7 +7,4 @@
 
 @inject RequestState RequestState;
 
-@{
-    //var footerContent = await AppPage.LoadFromUrl(AppUrl.Join(UrlSettings.ContentGeneralUrl, "footer"));
-    //await footerContent.Render(this, this.Html);
-}
+<partial name="@GeneralSettings.RazorPagesRootAppPath@UrlSettings.ContentGeneralFooterFileUrl" />

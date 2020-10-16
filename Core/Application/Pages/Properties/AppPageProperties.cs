@@ -11,6 +11,7 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application.Pages.Properties
 
         public string Icon { get; set; } = "";
         public string Title { get; set; } = "Unknown";
+        public string Description { get; set; } = "";
         public string RedirectUrl { get; set; } = "";
 
         public string Layout { get; set; } = "";

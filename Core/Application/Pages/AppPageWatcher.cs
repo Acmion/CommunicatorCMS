@@ -26,10 +26,10 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application.Pages
         public AppPageWatcher()
         {
             CmsPageWatcher = CreatePageWatcher(UrlSettings.CmsRootUrl, CmsPageChanged, CmsPageDeleted, CmsPageRenamed, CmsPageWatcherError);
-            ContentPageWatcher = CreatePageWatcher(UrlSettings.WebRootUrl, ContentPageChanged, ContentPageDeleted, ContentPageRenamed, ContentPageWatcherError);
+            ContentPageWatcher = CreatePageWatcher(UrlSettings.ContentRootUrl, ContentPageChanged, ContentPageDeleted, ContentPageRenamed, ContentPageWatcherError);
 
             CmsPageFileWatcher = CreatePageFileWatcher(UrlSettings.CmsRootUrl, CmsPageChanged, CmsPageDeleted, CmsPageRenamed, CmsPageWatcherError);
-            ContentPageFileWatcher = CreatePageFileWatcher(UrlSettings.WebRootUrl, ContentPageChanged, ContentPageDeleted, ContentPageRenamed, ContentPageWatcherError);
+            ContentPageFileWatcher = CreatePageFileWatcher(UrlSettings.ContentRootUrl, ContentPageChanged, ContentPageDeleted, ContentPageRenamed, ContentPageWatcherError);
         }
 
         private FileSystemWatcher CreatePageWatcher(string url, FileSystemEventHandler onChanged, FileSystemEventHandler onDeleted, RenamedEventHandler onRenamed, ErrorEventHandler onError)
@@ -119,7 +119,7 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application.Pages
                 pageUrl = AppPath.GetDirectoryName(pageUrl);
             }
 
-            if (!changedPageUrls.Contains(pageUrl)) 
+            if (!changedPageUrls.Contains(pageUrl) && AppPage.IsUrlAppPage(pageUrl)) 
             {
                 changedPageUrls.Add(pageUrl);
             }

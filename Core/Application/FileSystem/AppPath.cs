@@ -13,7 +13,7 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application.FileSystem
 
         public static bool IsCmsAppPath(string appPath)
         {
-            return appPath.StartsWith(GeneralSettings.WebRootAppPath + UrlSettings.CmsRootUrl);
+            return appPath.StartsWith(GeneralSettings.RazorPagesRootAppPath + UrlSettings.CmsRootUrl);
         }
         public static bool IsCmsAbsolutePath(string absolutePath) 
         {
@@ -25,10 +25,10 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application.FileSystem
         {
             if (IsCmsAppPath(appPath)) 
             {
-                return appPath.Replace(GeneralSettings.WebRootAppPath, "");
+                return appPath.Replace(GeneralSettings.RazorPagesRootAppPath, "");
             }
 
-            return appPath.Replace(GeneralSettings.WebRootAppPath, "");
+            return appPath.Replace(GeneralSettings.RazorPagesRootAppPath, "");
 
         }
         public static string ConvertToAbsolutePath(string appPath)

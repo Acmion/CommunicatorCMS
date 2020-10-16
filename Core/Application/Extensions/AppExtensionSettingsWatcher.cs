@@ -22,7 +22,7 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application.Extensions
         public AppExtensionSettingsWatcher() 
         {
             CmsExtensionSettingsWatcher = CreateExtensionWatcher(UrlSettings.CmsCommunicatorCmsExtensionsUrl, CmsExtensionSettingsChanged, CmsExtensionSettingsChanged, CmsExtensionSettingsWatcherError);
-            ContentExtensionSettingsWatcher = CreateExtensionWatcher(UrlSettings.WebCommunicatorCmsExtensionsUrl, ContentExtensionSettingsChanged, ContentExtensionSettingsChanged, ContentExtensionSettingsWatcherError);
+            ContentExtensionSettingsWatcher = CreateExtensionWatcher(UrlSettings.ContentCommunicatorCmsExtensionsUrl, ContentExtensionSettingsChanged, ContentExtensionSettingsChanged, ContentExtensionSettingsWatcherError);
         }
 
         private FileSystemWatcher CreateExtensionWatcher(string url, FileSystemEventHandler onChanged, RenamedEventHandler onRenamed, ErrorEventHandler onError) 
@@ -53,7 +53,7 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application.Extensions
 
         private void ContentExtensionSettingsChanged(object sender, FileSystemEventArgs e)
         {
-            AddChangedExtension(e.FullPath, UrlSettings.WebCommunicatorCmsExtensionsUrl, ContentChangedExtensionSettingsUrls);
+            AddChangedExtension(e.FullPath, UrlSettings.ContentCommunicatorCmsExtensionsUrl, ContentChangedExtensionSettingsUrls);
         }
 
         private void CmsExtensionSettingsWatcherError(object sender, ErrorEventArgs e)

@@ -26,7 +26,7 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application
         public static AppExtensionHandler ExtensionHandler { get; } = new AppExtensionHandler();
         public static AppExtensionWatcher ExtensionWatcher { get; } = new AppExtensionWatcher();
 
-        public static IUrlRewriter UrlRewriteCustom { get; } = new UrlRewriterNone();
+        public static IUrlRewriter UrlRewriteCustom { get; set; } = new UrlRewriterNone();
 
         private static bool Launched { get; set; }
         private static SemaphoreSlim PageSemaphoreSlim = new SemaphoreSlim(1, 1);
@@ -36,13 +36,13 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application
 
         static App() 
         {
-            Settings = YamlDeserializer.Deserialize<AppSettings>(AppFile.ReadAllText(AppPath.Join(GeneralSettings.WebRootAppPath, UrlSettings.WebGeneralSettingsUrl, "/app-settings.yaml")));
+            Settings = YamlDeserializer.Deserialize<AppSettings>(AppFile.ReadAllText(AppPath.Join(GeneralSettings.RazorPagesRootAppPath, UrlSettings.ContentGeneralSettingsUrl, "/app-settings.yaml")));
         }
 
         public static async Task LoadSettings() 
         {
             // TODO: SEMAPHORE
-            Settings = YamlDeserializer.Deserialize<AppSettings>(await AppFile.ReadAllTextAsync(AppPath.Join(GeneralSettings.WebRootAppPath, UrlSettings.WebGeneralSettingsUrl, "/app-settings.yaml")));
+            Settings = YamlDeserializer.Deserialize<AppSettings>(await AppFile.ReadAllTextAsync(AppPath.Join(GeneralSettings.RazorPagesRootAppPath, UrlSettings.ContentGeneralSettingsUrl, "/app-settings.yaml")));
         }
 
         public static async Task OnRequestStart(IHtmlHelper htmlHelper)

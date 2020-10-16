@@ -53,17 +53,16 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application.Pages
             PageUrl = url;
             PageAppPath = AppUrl.ConvertToAppPath(url);
 
-            var baseUrlAndParameters = GetBaseUrlAndParameterValues(url);
             ParameterKeys = GetParameterKeys(url);
         }
 
         public static bool IsUrlAppPage(string url) 
         {
-            return IsAppPathAppPage(AppUrl.ConvertToAppPath(url));
+            return AppUrl.Exists(AppUrl.Join(url, AppPageSettings.IndexFileName));
         }
         public static bool IsAppPathAppPage(string appPath)
         {
-            return AppFile.Exists(AppPath.Join(appPath, AppPageSettings.PropertiesFileName));
+            return IsUrlAppPage(AppPath.ConvertToAppUrl(appPath));
         }
 
         public static AppPageBaseUrlAndParameterValues GetBaseUrlAndParameterValues(string url) 
@@ -145,7 +144,7 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application.Pages
                 }
                 else
                 {
-                    throw new Exception("No page with baseUrl and parameterCount found.");
+                    return baseUrlAndParameters.BaseUrl;
                 }
             }
 
@@ -325,7 +324,10 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application.Pages
 
             var baseUrl = url.Substring(0, indexOfUrlParameterSeparator + 1);
 
-            var parameters = url.Substring(baseUrl.Length, url.Length - baseUrl.Length).Split(AppUrl.Separator, StringSplitOptions.RemoveEmptyEntries);
+            var parameters = url.Substring(baseUrl.Length - 1, url.Length - baseUrl.Length + 1)
+                                .Replace(AppPageSettings.UrlParameterSeparator, AppUrl.SeparatorString)
+                                .Replace(AppPageSettings.UrlParameterSeparatorEnd, AppUrl.SeparatorString)
+                                .Split(AppUrl.Separator, StringSplitOptions.RemoveEmptyEntries);
 
             return parameters;
         }

@@ -12,7 +12,10 @@
 <head>
     @RenderSection(AppPageSettings.HeadBeforeSectionName, false)
     <partial name="head.cshtml" />
+    <partial name="@GeneralSettings.RazorPagesRootAppPath@UrlSettings.ContentGeneralHeadFileUrl" />
+
     @RenderSection(AppPageSettings.HeadAfterSectionName, false)
+    <partial name="@GeneralSettings.RazorPagesRootAppPath@UrlSettings.ContentGeneralMetaFileUrl" />
     <partial name="meta.cshtml" />
 </head>
 
@@ -48,10 +51,7 @@
                     </main>
 
                     <div class="page-extra">
-
                     </div>
-
-
                 </div>
             </div>
         </div>
@@ -64,6 +64,7 @@
 
     <section>
         <partial name="scripts.cshtml" />
+        <partial name="@GeneralSettings.RazorPagesRootAppPath@UrlSettings.ContentGeneralScriptsFileUrl" />
     </section>
 </body>
 

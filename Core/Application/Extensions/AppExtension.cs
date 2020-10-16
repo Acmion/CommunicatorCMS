@@ -14,7 +14,7 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application.Extensions
         public string Name { get; }
 
         public string CmsSettingsRootUrl => AppUrl.Join(UrlSettings.CmsGeneralSettingsExtensionsUrl, Id);
-        public string ContentSettingsRootUrl => AppUrl.Join(UrlSettings.WebGeneralSettingsExtensionUrl, Id);
+        public string ContentSettingsRootUrl => AppUrl.Join(UrlSettings.ContentGeneralSettingsExtensionUrl, Id);
 
         public bool CmsSettingsRootUrlExists => AppUrl.Exists(CmsSettingsRootUrl);
         public bool ContentSettingsRootUrlExists => AppUrl.Exists(ContentSettingsRootUrl);

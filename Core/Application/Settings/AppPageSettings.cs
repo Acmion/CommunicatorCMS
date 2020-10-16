@@ -9,6 +9,7 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Settings
     {
         public static string SubPageOrderEllipsisIdentifier { get; } = "...";
         public static string UrlParameterSeparator { get; } = "/[";
+        public static string UrlParameterSeparatorEnd { get; } = "]/";
 
         public static string IndexUrl { get; private set; } = "_index";
         public static string IndexFileName { get; private set; } = "_index.cshtml";
