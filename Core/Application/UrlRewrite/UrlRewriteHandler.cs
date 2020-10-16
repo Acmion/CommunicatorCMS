@@ -38,7 +38,7 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application.UrlRewrite
                 context.Request.QueryString = new QueryString(requestedQuery);
             }
 
-            if (AppUrl.IsFile(requestedUrl) || File.Exists(CommunicatorCms.AppAbsolutePath + "/wwwroot" + requestedUrl))
+            if (AppUrl.IsFile(requestedUrl) || File.Exists(CommunicatorCmsConfiguration.AppAbsolutePath + "/wwwroot" + requestedUrl))
             {
                 context.Request.Path = requestedUrl;
             }

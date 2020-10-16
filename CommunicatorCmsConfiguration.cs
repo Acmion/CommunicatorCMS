@@ -19,14 +19,14 @@ using Microsoft.Net.Http.Headers;
 
 namespace Acmion.CommunicatorCmsLibrary
 {
-    public static class CommunicatorCms
+    public static class CommunicatorCmsConfiguration
     {
         public static string AppAbsolutePath { get; private set; } = "";
         public static string CmsAbsolutePath { get; } = GetRootPath();
 
         public static CultureInfo AmericanCultureInfo { get; } = CultureInfo.GetCultureInfo("en-US");
 
-        static CommunicatorCms() 
+        static CommunicatorCmsConfiguration() 
         {
 
         }

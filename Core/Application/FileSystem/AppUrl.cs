@@ -51,10 +51,10 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application.FileSystem
         {
             if (IsCmsUrl(url))
             {
-                return AppPath.Join(CommunicatorCms.CmsAbsolutePath, ConvertToAppPath(url));
+                return AppPath.Join(CommunicatorCmsConfiguration.CmsAbsolutePath, ConvertToAppPath(url));
             }
 
-            return AppPath.Join(CommunicatorCms.AppAbsolutePath, ConvertToAppPath(url));
+            return AppPath.Join(CommunicatorCmsConfiguration.AppAbsolutePath, ConvertToAppPath(url));
         }
 
         public static string CreateGetUrl(string url, Dictionary<string, string> getParameters)

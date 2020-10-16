@@ -17,7 +17,7 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application.FileSystem
         }
         public static bool IsCmsAbsolutePath(string absolutePath) 
         {
-            return absolutePath.StartsWith(CommunicatorCms.CmsAbsolutePath);
+            return absolutePath.StartsWith(CommunicatorCmsConfiguration.CmsAbsolutePath);
         }
 
 
@@ -35,29 +35,29 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Application.FileSystem
         {
             if (IsCmsAppPath(appPath)) 
             {
-                return Path.Join(CommunicatorCms.CmsAbsolutePath, appPath);
+                return Path.Join(CommunicatorCmsConfiguration.CmsAbsolutePath, appPath);
             }
 
-            return Path.Join(CommunicatorCms.AppAbsolutePath, appPath);
+            return Path.Join(CommunicatorCmsConfiguration.AppAbsolutePath, appPath);
         }
 
         public static string ConvertAbsolutePathToAppUrl(string absolutePath) 
         {
             if (IsCmsAbsolutePath(absolutePath))
             {
-                return ConvertToAppUrl(absolutePath.Replace(CommunicatorCms.CmsAbsolutePath, ""));
+                return ConvertToAppUrl(absolutePath.Replace(CommunicatorCmsConfiguration.CmsAbsolutePath, ""));
             }
 
-            return ConvertToAppUrl(absolutePath.Replace(CommunicatorCms.AppAbsolutePath, ""));
+            return ConvertToAppUrl(absolutePath.Replace(CommunicatorCmsConfiguration.AppAbsolutePath, ""));
         }
         public static string ConvertAbsolutePathToAppPath(string absolutePath)
         {
             if (IsCmsAbsolutePath(absolutePath)) 
             {
-                return absolutePath.Replace(CommunicatorCms.CmsAbsolutePath, "");
+                return absolutePath.Replace(CommunicatorCmsConfiguration.CmsAbsolutePath, "");
             }
 
-            return absolutePath.Replace(CommunicatorCms.AppAbsolutePath, "");
+            return absolutePath.Replace(CommunicatorCmsConfiguration.AppAbsolutePath, "");
         }
 
         public static string GetFileName(string path)
