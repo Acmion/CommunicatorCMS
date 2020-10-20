@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Acmion.CommunicatorCmsLibrary.Core.Application.UrlRewrite
+namespace Acmion.CommunicatorCms.Core.Application.UrlRewrite
 {
     public class UrlRewriterNone : IUrlRewriter
     {

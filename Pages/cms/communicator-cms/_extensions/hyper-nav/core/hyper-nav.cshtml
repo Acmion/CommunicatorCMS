@@ -195,7 +195,7 @@
         return RazorHelper.Body
         (
             @<text>
-                <div style="flex: @layoutProperties.SpaceBefore.ToString(CommunicatorCms.AmericanCultureInfo)">
+                <div style="flex: @layoutProperties.SpaceBefore.ToString(CommunicatorCmsConfiguration.AmericanCultureInfo)">
                 </div>
 
                 @{ 
@@ -255,7 +255,7 @@
 
                     if (layoutProperties.SpaceAfter != 0)
                     {
-                        <div style="flex: @layoutProperties.SpaceBefore.ToString(CommunicatorCms.AmericanCultureInfo)">
+                        <div style="flex: @layoutProperties.SpaceBefore.ToString(CommunicatorCmsConfiguration.AmericanCultureInfo)">
                         </div>
                     }
                 }

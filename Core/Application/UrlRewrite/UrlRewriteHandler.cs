@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Acmion.CommunicatorCmsLibrary.Core.Application.FileSystem;
-using Acmion.CommunicatorCmsLibrary.Core.Application.Pages;
-using Acmion.CommunicatorCmsLibrary.Core.Extensions;
-using Acmion.CommunicatorCmsLibrary.Core.Settings;
+using Acmion.CommunicatorCms.Core.Application.FileSystem;
+using Acmion.CommunicatorCms.Core.Application.Pages;
+using Acmion.CommunicatorCms.Core.Extensions;
+using Acmion.CommunicatorCms.Core.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 
-namespace Acmion.CommunicatorCmsLibrary.Core.Application.UrlRewrite
+namespace Acmion.CommunicatorCms.Core.Application.UrlRewrite
 { 
     public class UrlRewriteHandler
     {

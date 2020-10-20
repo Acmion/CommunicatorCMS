@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
-namespace Acmion.CommunicatorCmsLibrary.Core.Extensions
+namespace Acmion.CommunicatorCms.Core.Extensions
 {
     public static class IQueryCollectionExtension
     {

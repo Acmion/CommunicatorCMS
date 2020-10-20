@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Acmion.CommunicatorCmsLibrary.Core.Settings
+namespace Acmion.CommunicatorCms.Core.Settings
 {
     public static class UrlSettings
     {
@@ -34,6 +34,7 @@ namespace Acmion.CommunicatorCmsLibrary.Core.Settings
         public static string ContentGeneralFooterFileUrl = "/_general/footer/footer.cshtml";
         public static string ContentGeneralHeadFileUrl = "/_general/head/head.cshtml";
         public static string ContentGeneralMetaFileUrl = "/_general/meta/meta.cshtml";
+        public static string ContentGeneralHeaderNavMenuExtraFileUrl = "/_general/header/nav-menu-extra.cshtml";
         public static string ContentGeneralScriptsFileUrl = "/_general/scripts/scripts.cshtml";
 
     }

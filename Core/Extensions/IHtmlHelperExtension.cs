@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Acmion.CommunicatorCmsLibrary.Core.Application.FileSystem;
+using Acmion.CommunicatorCms.Core.Application.FileSystem;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Acmion.CommunicatorCmsLibrary.Core.Extensions
+namespace Acmion.CommunicatorCms.Core.Extensions
 {
     public static class IHtmlHelperExtension
     {

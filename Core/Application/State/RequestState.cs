@@ -4,15 +4,15 @@ using System.Collections.Specialized;
 using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
-using Acmion.CommunicatorCmsLibrary.Core.Application;
-using Acmion.CommunicatorCmsLibrary.Core.Application.FileSystem;
-using Acmion.CommunicatorCmsLibrary.Core.Application.Pages;
-using Acmion.CommunicatorCmsLibrary.Core.Application.Utilities;
-using Acmion.CommunicatorCmsLibrary.Core.Settings;
+using Acmion.CommunicatorCms.Core.Application;
+using Acmion.CommunicatorCms.Core.Application.FileSystem;
+using Acmion.CommunicatorCms.Core.Application.Pages;
+using Acmion.CommunicatorCms.Core.Application.Utilities;
+using Acmion.CommunicatorCms.Core.Settings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 
-namespace Acmion.CommunicatorCmsLibrary.Core
+namespace Acmion.CommunicatorCms.Core
 {
     public class RequestState
     {

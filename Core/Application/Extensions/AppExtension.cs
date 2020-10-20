@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Acmion.CommunicatorCmsLibrary.Core.Application.FileSystem;
-using Acmion.CommunicatorCmsLibrary.Core.Settings;
+using Acmion.CommunicatorCms.Core.Application.FileSystem;
+using Acmion.CommunicatorCms.Core.Settings;
 using Microsoft.AspNetCore.Html;
 
-namespace Acmion.CommunicatorCmsLibrary.Core.Application.Extensions
+namespace Acmion.CommunicatorCms.Core.Application.Extensions
 {
     public abstract class AppExtension
     {

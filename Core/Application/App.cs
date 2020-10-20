@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Acmion.CommunicatorCmsLibrary.Core.Application.Extensions;
-using Acmion.CommunicatorCmsLibrary.Core.Application.FileSystem;
-using Acmion.CommunicatorCmsLibrary.Core.Application.Pages;
-using Acmion.CommunicatorCmsLibrary.Core.Application.UrlRewrite;
-using Acmion.CommunicatorCmsLibrary.Core.Settings;
+using Acmion.CommunicatorCms.Core.Application.Extensions;
+using Acmion.CommunicatorCms.Core.Application.FileSystem;
+using Acmion.CommunicatorCms.Core.Application.Pages;
+using Acmion.CommunicatorCms.Core.Application.UrlRewrite;
+using Acmion.CommunicatorCms.Core.Settings;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using YamlDotNet.Serialization;
 
-namespace Acmion.CommunicatorCmsLibrary.Core.Application
+namespace Acmion.CommunicatorCms.Core.Application
 {
     public static class App
     {

@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace Acmion.CommunicatorCmsLibrary.Core.Actions
+namespace Acmion.CommunicatorCms.Core.Actions
 {
     public class PageAction
     {

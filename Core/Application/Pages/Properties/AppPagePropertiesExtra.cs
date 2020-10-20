@@ -4,7 +4,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Acmion.CommunicatorCmsLibrary.Core.Application.Pages.Properties
+namespace Acmion.CommunicatorCms.Core.Application.Pages.Properties
 {
     public class AppPagePropertiesExtra
     {

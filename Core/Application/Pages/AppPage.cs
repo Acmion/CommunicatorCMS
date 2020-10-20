@@ -1,7 +1,7 @@
-﻿using Acmion.CommunicatorCmsLibrary.Core.Application.Pages.Properties;
-using Acmion.CommunicatorCmsLibrary.Core.Application.FileSystem;
-using Acmion.CommunicatorCmsLibrary.Core.Helpers;
-using Acmion.CommunicatorCmsLibrary.Core.Settings;
+﻿using Acmion.CommunicatorCms.Core.Application.Pages.Properties;
+using Acmion.CommunicatorCms.Core.Application.FileSystem;
+using Acmion.CommunicatorCms.Core.Helpers;
+using Acmion.CommunicatorCms.Core.Settings;
 using Markdig;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -14,7 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using YamlDotNet.Serialization;
 
-namespace Acmion.CommunicatorCmsLibrary.Core.Application.Pages
+namespace Acmion.CommunicatorCms.Core.Application.Pages
 {
     public class AppPage
     {

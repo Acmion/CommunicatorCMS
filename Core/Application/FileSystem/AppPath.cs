@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Acmion.CommunicatorCmsLibrary.Core.Settings;
+using Acmion.CommunicatorCms.Core.Settings;
 
-namespace Acmion.CommunicatorCmsLibrary.Core.Application.FileSystem
+namespace Acmion.CommunicatorCms.Core.Application.FileSystem
 {
     public static class AppPath
     {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Acmion.CommunicatorCmsLibrary.Core.Application.FileSystem;
-using Acmion.CommunicatorCmsLibrary.Core.Settings;
+using Acmion.CommunicatorCms.Core.Application.FileSystem;
+using Acmion.CommunicatorCms.Core.Settings;
 
-namespace Acmion.CommunicatorCmsLibrary.Core.Application.Extensions
+namespace Acmion.CommunicatorCms.Core.Application.Extensions
 {
     public class AppExtensionSettingsWatcher
     {

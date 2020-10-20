@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Acmion.CommunicatorCmsLibrary.Core.Application.Pages;
+using Acmion.CommunicatorCms.Core.Application.Pages;
 
-namespace Acmion.CommunicatorCmsLibrary.Core.Application.Utilities
+namespace Acmion.CommunicatorCms.Core.Application.Utilities
 {
     public class Breadcrumb
     {

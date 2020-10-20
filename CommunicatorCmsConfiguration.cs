@@ -5,10 +5,10 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
-using Acmion.CommunicatorCmsLibrary.Core;
-using Acmion.CommunicatorCmsLibrary.Core.Application;
-using Acmion.CommunicatorCmsLibrary.Core.Application.UrlRewrite;
-using Acmion.CommunicatorCmsLibrary.Core.Settings;
+using Acmion.CommunicatorCms.Core;
+using Acmion.CommunicatorCms.Core.Application;
+using Acmion.CommunicatorCms.Core.Application.UrlRewrite;
+using Acmion.CommunicatorCms.Core.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -17,7 +17,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
 
-namespace Acmion.CommunicatorCmsLibrary
+namespace Acmion.CommunicatorCms
 {
     public static class CommunicatorCmsConfiguration
     {

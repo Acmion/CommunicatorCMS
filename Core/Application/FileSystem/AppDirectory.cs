@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Acmion.CommunicatorCmsLibrary.Core.Application.FileSystem
+namespace Acmion.CommunicatorCms.Core.Application.FileSystem
 {
     public static class AppDirectory
     {

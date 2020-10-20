@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
-using Acmion.CommunicatorCmsLibrary.Core.Application.Extensions;
-using Acmion.CommunicatorCmsLibrary.Core.Application.FileSystem;
-using Acmion.CommunicatorCmsLibrary.Core.Settings;
+using Acmion.CommunicatorCms.Core.Application.Extensions;
+using Acmion.CommunicatorCms.Core.Application.FileSystem;
+using Acmion.CommunicatorCms.Core.Settings;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Acmion.CommunicatorCmsLibrary.Core.Application.Settings;
-using Acmion.CommunicatorCmsLibrary.Core.Extensions;
+using Acmion.CommunicatorCms.Core.Application.Settings;
+using Acmion.CommunicatorCms.Core.Extensions;
 using System.Threading;
 
-namespace Acmion.CommunicatorCmsLibrary.Core.Application.Extensions
+namespace Acmion.CommunicatorCms.Core.Application.Extensions
 {
     public class AppExtensionHandler
     {

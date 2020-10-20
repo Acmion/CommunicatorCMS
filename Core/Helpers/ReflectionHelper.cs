@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Acmion.CommunicatorCmsLibrary.Core.Helpers
+namespace Acmion.CommunicatorCms.Core.Helpers
 {
     public static class ReflectionHelper
     {

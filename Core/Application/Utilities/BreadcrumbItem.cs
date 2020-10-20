@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Acmion.CommunicatorCmsLibrary.Core.Application.Utilities
+namespace Acmion.CommunicatorCms.Core.Application.Utilities
 {
     public class BreadcrumbItem
     {

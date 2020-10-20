@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Acmion.CommunicatorCmsLibrary.Core.Extensions
+namespace Acmion.CommunicatorCms.Core.Extensions
 {
     public static class StringExtensions
     {

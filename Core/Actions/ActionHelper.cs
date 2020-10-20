@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-namespace Acmion.CommunicatorCmsLibrary.Core.Actions
+namespace Acmion.CommunicatorCms.Core.Actions
 {
     public static class ActionHelper
     {

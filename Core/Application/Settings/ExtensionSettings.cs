@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Acmion.CommunicatorCmsLibrary.Core.Application.FileSystem;
+using Acmion.CommunicatorCms.Core.Application.FileSystem;
 
-namespace Acmion.CommunicatorCmsLibrary.Core.Application.Settings
+namespace Acmion.CommunicatorCms.Core.Application.Settings
 {
     public static class ExtensionSettings
     {

@@ -5,11 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using Acmion.CommunicatorCmsLibrary.Core.Extensions;
-using Acmion.CommunicatorCmsLibrary.Core.Settings;
+using Acmion.CommunicatorCms.Core.Extensions;
+using Acmion.CommunicatorCms.Core.Settings;
 using Microsoft.AspNetCore.WebUtilities;
 
-namespace Acmion.CommunicatorCmsLibrary.Core.Application.FileSystem
+namespace Acmion.CommunicatorCms.Core.Application.FileSystem
 {
     public static class AppUrl
     {
