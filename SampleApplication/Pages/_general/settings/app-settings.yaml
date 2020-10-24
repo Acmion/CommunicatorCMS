@@ -1,0 +1,11 @@
+﻿Title: CommunicatorCmsSampleApplication
+Theme: default
+LogoIcon: ""
+LogoContent: CommunicatorCmsSampleApplication
+Version: 1.0.0
+LinuxLocalHostPort: 8000
+
+RootPageUrls:
+    - /
+    - /lang0/
+    - /lang1/
