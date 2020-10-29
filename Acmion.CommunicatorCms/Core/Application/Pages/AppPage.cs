@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using YamlDotNet.Serialization;
+using Acmion.CommunicatorCms.Core.Application.DataTypes;
 
 namespace Acmion.CommunicatorCms.Core.Application.Pages
 {
@@ -194,6 +195,15 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages
             }
 
             return "";
+        }
+
+        public string GetTranslatedUrl(Language language)
+        {
+            return App.Settings.TranslateUrl(PageUrl, language);
+        }
+        public string GetTranslatedUrl(string languageId)
+        {
+            return App.Settings.TranslateUrl(PageUrl, languageId);
         }
 
         public bool HasParentPage() 

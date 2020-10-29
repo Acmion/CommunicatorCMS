@@ -42,6 +42,8 @@ namespace Acmion.CommunicatorCms.Core.Application
 
             var themeSettingsContent = AppFile.ReadAllText(AppPath.Join(GeneralSettings.RazorPagesRootAppPath, UrlSettings.ContentGeneralSettingsThemeUrl, Settings.Theme, "settings.yaml"));
             ThemeSettings = YamlDeserializer.Deserialize<Dictionary<object, object>>(themeSettingsContent);
+        
+            Settings.Initialize();
         }
 
         public static async Task LoadSettings() 

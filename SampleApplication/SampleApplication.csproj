@@ -12,6 +12,10 @@
     <ProjectReference Include="..\Acmion.CommunicatorCms\Acmion.CommunicatorCms.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\_general\settings\extensions\NewFolder\" />
+  </ItemGroup>
+
 
 
 </Project>

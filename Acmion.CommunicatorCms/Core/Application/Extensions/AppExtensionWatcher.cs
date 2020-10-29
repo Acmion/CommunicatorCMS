@@ -90,11 +90,11 @@ namespace Acmion.CommunicatorCms.Core.Application.Extensions
             {
                 // Extension file or subdirectory changed
                 extensionUrl = fullUrl.Substring(0, separatorIndex);
-            }
 
-            if (!changedExtensionUrls.Contains(extensionUrl))
-            {
-                changedExtensionUrls.Add(extensionUrl);
+                if (!changedExtensionUrls.Contains(extensionUrl))
+                {
+                    changedExtensionUrls.Add(extensionUrl);
+                }
             }
         }
     }

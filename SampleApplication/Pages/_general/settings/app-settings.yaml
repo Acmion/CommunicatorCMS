@@ -5,7 +5,37 @@ LogoContent: CommunicatorCmsSampleApplication
 Version: 1.0.0
 LinuxLocalHostPort: 8000
 
+Languages:
+    - 
+        Id: lang0
+        Name: Language0
+    - 
+        Id: lang1
+        Name: Language1
+    - 
+        Id: lang2
+        Name: Language2
+
 RootPageUrls:
     - /
     - /lang0/
     - /lang1/
+    - /lang2/
+
+TranslatedUrlLists:
+    - 
+        - /lang0/
+        - /lang1/
+        - /lang2/
+    -
+        - /lang0/page1/
+        - /lang1/page1/
+        - /lang2/page1/
+    -
+        - /lang0/page2/
+        - /lang1/page2/
+        - /lang2/page2/
+    -
+        - /lang0/page3/
+        - /lang1/page3/
+        - /lang2/page3/

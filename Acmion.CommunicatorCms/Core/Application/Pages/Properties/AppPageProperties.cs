@@ -29,7 +29,5 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages.Properties
         public List<string> SubPageOrderFromEnd { get; set; } = new List<string>();
 
         public List<string> ContentOrder { get; set; } = new List<string>();
-
-
     }
 }

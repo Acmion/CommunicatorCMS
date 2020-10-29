@@ -22,15 +22,15 @@
             <div class="hn-nav container-lg p-0">
                 <div class="hn-section hn-section-brand">
                     @{
-                        if (App.Settings.LogoIcon != "" || App.Settings.LogoContent != "")
+                        if (RequestState.LogoIcon != "" || RequestState.LogoContent != "")
                         {
                             <a class="hn-item" href="@rootPage.PageUrl">
                                 <span class="hn-link">
                                     <span class="hn-icon hn-size-auto">
-                                        @Html.Raw(App.Settings.LogoIcon)
+                                        @Html.Raw(RequestState.LogoIcon)
                                     </span>
                                     <span class="hn-content">
-                                        @Html.Raw(App.Settings.LogoContent)
+                                        @Html.Raw(RequestState.LogoContent)
                                     </span>
                                 </span>
                             </a>
@@ -54,7 +54,6 @@
                     </label>
                 </div>
                 <div class="hn-section hn-section-body">
-                    <div class="hn-spacer"></div>
                     @{
                         @await App.Extensions.HyperNav.RenderCommunicatorCmsNavLayout(rootPage, RequestState, "top-nav-cb", false, true, true, 0)
                         foreach (var subPage in await rootPage.GetSubPages())

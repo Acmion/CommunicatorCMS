@@ -8,6 +8,7 @@
   <PropertyGroup>
     <Nullable>enable</Nullable>
     <Version>0.0.1</Version>
+    <Description>A flat file ASP.NET Core content management system.</Description>
   </PropertyGroup>
 
   <ItemGroup>
