@@ -29,11 +29,13 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages
         public string PageAppPath { get; set; }
         public string[] ParameterKeys { get; }
 
+        public bool HasParameters => ParameterKeys.Length > 0;
+
         public AppPageProperties Properties { get; set; } = AppPageProperties.Default;
         public AppPagePropertiesNavItem PropertiesNavItem { get; set; } = AppPagePropertiesNavItem.Default;
         public dynamic PropertiesExtra { get; set; } = 0;
 
-        public List<string> ContentFileAppPaths { get => GetContentFileAppPaths(); }
+        public List<string> ContentFileAppPaths => GetContentFileAppPaths();
 
         private List<AppPage>? _subPages;
         private int _subPagesVisibleCount = -1;
@@ -195,15 +197,6 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages
             }
 
             return "";
-        }
-
-        public string GetTranslatedUrl(Language language)
-        {
-            return App.Settings.TranslateUrl(PageUrl, language);
-        }
-        public string GetTranslatedUrl(string languageId)
-        {
-            return App.Settings.TranslateUrl(PageUrl, languageId);
         }
 
         public bool HasParentPage() 

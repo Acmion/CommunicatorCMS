@@ -62,7 +62,7 @@ namespace Acmion.CommunicatorCms.Core.Application.UrlRewrite
                 var currentAppPage = await App.Pages.GetByUrl(actualAppPageUrl);
 
                 // Store the state requestState
-                await requestState.Initialize(requestedUrl, baseUrlAndParameterValues.ParameterValues, currentAppPage);
+                await requestState.Initialize(requestedUrl, requestedQuery, baseUrlAndParameterValues.ParameterValues, currentAppPage);
 
                 // Get rewrite to actualAppPageUrl
                 context.Request.Path = actualAppPageUrl + AppPageSettings.IndexUrl;

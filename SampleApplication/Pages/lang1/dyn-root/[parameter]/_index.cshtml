@@ -1,0 +1,20 @@
+﻿@page
+
+<h1>
+    Parametrized Page
+</h1>
+
+<p>
+    This URL does not actually exists and contains parameters in the URL.
+</p>
+
+<h2>
+    Parameters
+</h2>
+
+@foreach (var parameter in RequestState.CurrentAppPage.ParameterKeys) 
+{
+    <p>
+        @parameter : @RequestState.ParameterDictionary[parameter]
+    </p>
+}

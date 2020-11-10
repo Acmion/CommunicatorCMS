@@ -39,3 +39,11 @@ TranslatedUrlLists:
         - /lang0/page3/
         - /lang1/page3/
         - /lang2/page3/
+    -
+        - /lang0/dyn-root/
+        - /lang1/dyn-root/
+        - /lang2/dyn-root/
+    -
+        - /lang0/dyn-root/[parameter]/
+        - /lang1/dyn-root/[parameter]/
+        - /lang2/dyn-root/[parameter]/

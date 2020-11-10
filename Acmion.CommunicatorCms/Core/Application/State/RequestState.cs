@@ -22,6 +22,7 @@ namespace Acmion.CommunicatorCms.Core
 
         // Props initialized in Initialize
         public string Url { get; private set; } = "/";
+        public string Query { get; private set; } = "";
         public AppPage CurrentAppPage { get; private set; } = null!;
 
         public dynamic Parameters { get; private set; } = new ExpandoObject();
@@ -30,6 +31,8 @@ namespace Acmion.CommunicatorCms.Core
         public Dictionary<string, string> ParameterDictionary { get; private set; } = new Dictionary<string, string>();
 
         public string Title { get; set; } = null!;
+        public string Description { get; set; } = null!;
+
         public string LogoIcon { get; set; } = null!;
         public string LogoContent { get; set; } = null!;
         public string Theme { get; set; } = null!;
@@ -44,14 +47,16 @@ namespace Acmion.CommunicatorCms.Core
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task Initialize(string url, string[] parameterValues, AppPage currentAppPage) 
+        public async Task Initialize(string url, string query, string[] parameterValues, AppPage currentAppPage) 
         {
             Url = url;
+            Query = query;
             ParameterValues = parameterValues;
             CurrentAppPage = currentAppPage;
 
             Breadcrumb = await Breadcrumb.GetFromAppPage(currentAppPage);
             Title = Breadcrumb.LastBreadcrumbItem.Title;
+            Description = CurrentAppPage.Properties.Description;
 
             LogoIcon = App.Settings.LogoIcon;
             LogoContent = App.Settings.LogoContent;
@@ -76,6 +81,25 @@ namespace Acmion.CommunicatorCms.Core
         public async Task<AppPage> GetCurrentPage() 
         {
             return await App.Pages.GetByUrl(Url);
+        }
+
+        public string TranslateUrl(string languageId) 
+        {
+            var translatedUrl = App.Settings.TranslateUrl(CurrentAppPage.PageUrl, languageId);
+
+            if (CurrentAppPage.HasParameters) 
+            {
+                foreach (var parameterKey in ParameterKeys)
+                {
+                    translatedUrl = translatedUrl.Replace("[" + parameterKey + "]", ParameterDictionary[parameterKey]);
+                }
+            }
+
+            return translatedUrl;
+        }
+        public string TranslateUrl(Language language) 
+        {
+            return TranslateUrl(language.Id);
         }
 
         private Language GetLanguage() 

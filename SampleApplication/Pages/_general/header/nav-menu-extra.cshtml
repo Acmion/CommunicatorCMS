@@ -37,7 +37,7 @@
             @foreach (var language in App.Settings.Languages)
             {
                 <div class="hn-item">
-                    <a class="hn-link" href="@RequestState.CurrentAppPage.GetTranslatedUrl(language)">
+                    <a class="hn-link" href="@RequestState.TranslateUrl(language)">
                         <span class="hn-content">
                             @language.Name
                         </span>
