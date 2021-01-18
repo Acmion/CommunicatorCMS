@@ -114,7 +114,7 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages
 
             var directoryEvent = sender == CmsPageWatcher || sender == ContentPageWatcher;
 
-            if (!directoryEvent)
+            if (!AppPage.IsUrlAppPage(pageUrl))
             {
                 pageUrl = AppPath.GetDirectoryName(pageUrl);
             }

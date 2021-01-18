@@ -16,6 +16,7 @@ namespace Acmion.CommunicatorCms.Core.Settings
 
         public static string PropertiesFileNamePrefix { get; } = "_properties";
         public static string PropertiesFileName { get; private set; } = "_properties.yaml";
+        public static string PropertiesMasterFileName { get; private set; } = "_properties-master.yaml";
         public static string PropertiesNavItemFileName { get; private set; } = "_properties-nav-item.yaml";
         public static string PropertiesExtraFileName { get; private set; } = "_properties-extra.yaml";
 

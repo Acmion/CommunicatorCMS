@@ -1,0 +1,46 @@
+Name: Default Theme
+
+HeaderClass: ""
+MenuTopClass: ""
+FooterClass: ""
+
+CenterLayout:
+    Main:
+        CenterClass: "container row mx-auto"
+        MainClass: "container"
+        MenuLeftClass: ""
+        MenuRightClass: ""
+        
+        MainWrapperClass: "col"
+        MenuLeftWrapperClass: ""
+        MenuRightWrapperClass: ""
+
+    MainAndLeft:
+        CenterClass: "container row mx-auto"
+        MainClass: "container"
+        MenuLeftClass: ""
+        MenuRightClass: ""
+
+        MainWrapperClass: "col-md-8"
+        MenuLeftWrapperClass: "col-md-4"
+        MenuRightWrapperClass: ""
+
+    MainAndRight:
+        CenterClass: "container row mx-auto"
+        MainClass: "container"
+        MenuLeftClass: ""
+        MenuRightClass: ""
+        
+        MainWrapperClass: "col-md-8"
+        MenuLeftWrapperClass: ""
+        MenuRightWrapperClass: "col-md-4"
+
+    MainAndLeftAndRight:
+        CenterClass: "container row mx-auto"
+        MainClass: "container"
+        MenuLeftClass: ""
+        MenuRightClass: ""
+        
+        MainWrapperClass: "col-md-6"
+        MenuLeftWrapperClass: "col-md-3"
+        MenuRightWrapperClass: "col-md-3"

@@ -19,7 +19,7 @@ namespace Acmion.CommunicatorCms.Core.Application
         public static dynamic Extensions => ExtensionHandler.Extensions;
 
         public static AppSettings Settings { get; private set; } = new AppSettings();
-        public static Dictionary<object, object> ThemeSettings { get; private set; } = new Dictionary<object, object>();
+        public static ThemeSettings ThemeSettings { get; private set; } = new ThemeSettings();
 
         public static AppPageHandler PageHandler { get; } = new AppPageHandler();
         public static AppPageWatcher PageWatcher { get; } = new AppPageWatcher();
@@ -37,19 +37,13 @@ namespace Acmion.CommunicatorCms.Core.Application
 
         static App() 
         {
-            var appSettingsContent = AppFile.ReadAllText(AppPath.Join(GeneralSettings.RazorPagesRootAppPath, UrlSettings.ContentGeneralSettingsUrl, "app-settings.yaml"));
+            var appSettingsContent = AppFile.ReadAllText(AppPath.Join(GeneralSettings.RazorPagesRootAppPath, UrlSettings.ContentSecondClassUrl, "_settings.yaml"));
             Settings = YamlDeserializer.Deserialize<AppSettings>(appSettingsContent);
 
-            var themeSettingsContent = AppFile.ReadAllText(AppPath.Join(GeneralSettings.RazorPagesRootAppPath, UrlSettings.ContentGeneralSettingsThemeUrl, Settings.Theme, "settings.yaml"));
-            ThemeSettings = YamlDeserializer.Deserialize<Dictionary<object, object>>(themeSettingsContent);
-        
             Settings.Initialize();
-        }
 
-        public static async Task LoadSettings() 
-        {
-            // TODO: SEMAPHORE
-            Settings = YamlDeserializer.Deserialize<AppSettings>(await AppFile.ReadAllTextAsync(AppPath.Join(GeneralSettings.RazorPagesRootAppPath, UrlSettings.ContentGeneralSettingsUrl, "/app-settings.yaml")));
+            var themeSettingsContent = AppFile.ReadAllText(AppPath.Join(GeneralSettings.RazorPagesRootAppPath, UrlSettings.ContentThirdClassThemesUrl, Settings.Theme, "_settings.yaml"));
+            ThemeSettings = YamlDeserializer.Deserialize<ThemeSettings>(themeSettingsContent);
         }
 
         public static async Task OnRequestStart(IHtmlHelper htmlHelper)
@@ -146,9 +140,10 @@ namespace Acmion.CommunicatorCms.Core.Application
         }
         private static async Task HandleChangedAppExtensions(IHtmlHelper htmlHelper)
         {
+            /*
             // Just an extra check so that unnecessary semaphore is avoided
-            if (ExtensionWatcher.CmsExtensionWatcherFailed || ExtensionWatcher.ContentExtensionWatcherFailed ||
-                ExtensionWatcher.CmsChangedExtensionUrls.Count > 0 || ExtensionWatcher.ContentChangedExtensionUrls.Count > 0)
+            if (ExtensionWatcher.CmsExtensionWatcherFailed || ExtensionWatcher.Failed ||
+                ExtensionWatcher.CmsChangedExtensionUrls.Count > 0 || ExtensionWatcher.ChangedExtensionUrls.Count > 0)
             {
                 await ExtensionSemaphoreSlim.WaitAsync();
                 
@@ -156,15 +151,15 @@ namespace Acmion.CommunicatorCms.Core.Application
 
                 try
                 {
-                    if (ExtensionWatcher.CmsExtensionWatcherFailed || ExtensionWatcher.ContentExtensionWatcherFailed)
+                    if (ExtensionWatcher.CmsExtensionWatcherFailed || ExtensionWatcher.Failed)
                     {
                         await ExtensionHandler.LoadAppExtensions(htmlHelper);
 
                         ExtensionWatcher.CmsExtensionWatcherFailed = false;
-                        ExtensionWatcher.ContentExtensionWatcherFailed = false;
+                        ExtensionWatcher.Failed = false;
 
                         ExtensionWatcher.CmsChangedExtensionUrls.Clear();
-                        ExtensionWatcher.ContentChangedExtensionUrls.Clear();
+                        ExtensionWatcher.ChangedExtensionUrls.Clear();
                     }
 
                     foreach (var extUrl in ExtensionWatcher.CmsChangedExtensionUrls)
@@ -172,19 +167,20 @@ namespace Acmion.CommunicatorCms.Core.Application
                         await ExtensionHandler.LoadAppExtension(extUrl, htmlHelper);
                     }
 
-                    foreach (var extUrl in ExtensionWatcher.ContentChangedExtensionUrls)
+                    foreach (var extUrl in ExtensionWatcher.ChangedExtensionUrls)
                     {
                         await ExtensionHandler.LoadAppExtension(extUrl, htmlHelper);
                     }
 
                     ExtensionWatcher.CmsChangedExtensionUrls.Clear();
-                    ExtensionWatcher.ContentChangedExtensionUrls.Clear();
+                    ExtensionWatcher.ChangedExtensionUrls.Clear();
                 }
                 finally
                 {
                     ExtensionSemaphoreSlim.Release();
                 }
             }
+            */
 
         }
 

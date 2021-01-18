@@ -20,6 +20,7 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages
     public class AppPage
     {
         public static AppPage EmptyAppPage { get; } = new AppPage("/");
+        private static AppPageProperties AppPagePropertiesDefault { get; } = new AppPageProperties();
 
         private static char IgnoreContentFileStartingCharacter = '_';
         private static IDeserializer YamlDeserializer = new DeserializerBuilder().IgnoreUnmatchedProperties().Build();
@@ -31,8 +32,9 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages
 
         public bool HasParameters => ParameterKeys.Length > 0;
 
-        public AppPageProperties Properties { get; set; } = AppPageProperties.Default;
-        public AppPagePropertiesNavItem PropertiesNavItem { get; set; } = AppPagePropertiesNavItem.Default;
+        public AppPageProperties Properties { get; set; } = new AppPageProperties();
+        public AppPageProperties PropertiesMaster { get; set; } = new AppPageProperties();
+        public AppPagePropertiesNavItem PropertiesNavItem { get; set; } = new AppPagePropertiesNavItem();
         public dynamic PropertiesExtra { get; set; } = 0;
 
         public List<string> ContentFileAppPaths => GetContentFileAppPaths();
@@ -165,6 +167,19 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages
             _contentFileAppPaths = null;
 
             await LoadProperties();
+
+            if (Properties != AppPagePropertiesDefault) 
+            {
+                await ReloadSubPagePropertiesRecursively();
+            }
+        }
+        public async Task ReloadSubPagePropertiesRecursively() 
+        {
+            foreach (var sp in await GetSubPages())
+            {
+                await sp.LoadProperties();
+                await sp.ReloadSubPagePropertiesRecursively();
+            }
         }
 
         public async Task<string> Render(RazorPageBase razorPage, IHtmlHelper htmlHelper)
@@ -274,47 +289,113 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages
 
         private async Task LoadProperties() 
         {
-            var propertiesFilePath = AppPath.Join(PageAppPath, AppPageSettings.PropertiesFileName);
-            var propertiesLayoutFilePath = AppPath.Join(PageAppPath, AppPageSettings.PropertiesNavItemFileName);
-            var propertiesExtraFilePath = AppPath.Join(PageAppPath, AppPageSettings.PropertiesExtraFileName);
-
-            var properties = AppPageProperties.Default;
-
-            if (AppFile.Exists(propertiesFilePath))
+            // TODO: Split into sepearate Try Catch.
+            try
             {
-                var propertiesCandidate = YamlDeserializer.Deserialize<AppPageProperties>(await AppFile.ReadAllTextAsync(propertiesFilePath));
+                var properties = await LoadPropertiesFromUrl<AppPageProperties>(PageUrl, AppPageSettings.PropertiesFileName);
+                var propertiesMaster = await LoadPropertiesFromUrl<AppPageProperties>(PageUrl, AppPageSettings.PropertiesMasterFileName);
+                var propertiesNavItem = await LoadPropertiesFromUrl<AppPagePropertiesNavItem>(PageUrl, AppPageSettings.PropertiesNavItemFileName);
+                var propertiesExtra = await LoadPropertiesFromUrl<AppPagePropertiesExtra>(PageUrl, AppPageSettings.PropertiesExtraFileName);
+
+                Properties = properties;
+                PropertiesMaster = propertiesMaster;
+                PropertiesNavItem = propertiesNavItem;
+                PropertiesExtra = propertiesExtra;
+
+                // Inheritance
+                var realInheritanceRootUrl = "";
+                if (properties.InheritanceRootUrl == "")
+                {
+                    realInheritanceRootUrl = "/";
+                }
+                else if (properties.InheritanceRootUrl.StartsWith('/'))
+                {
+                    realInheritanceRootUrl = properties.InheritanceRootUrl;
+                }
+                else if (properties.InheritanceRootUrl.StartsWith('.'))
+                {
+                    // Covers both .. and .
+                    realInheritanceRootUrl = AppPath.ConvertAbsolutePathToAppUrl(Path.GetFullPath(AppUrl.ConvertToAbsolutePath(PageUrl) + "/" + properties.InheritanceRootUrl));
+                }
+                else 
+                {
+                    realInheritanceRootUrl = PageUrl + "/" + properties.InheritanceRootUrl;
+                }
+
+                if (PageUrl.StartsWith(realInheritanceRootUrl)) 
+                {
+                    // Currently this loads all YAML files.
+                    // Maybe better to use cached pages??
+
+                    var splitPageUrl = realInheritanceRootUrl.Split('/').Skip(1);
+
+                    var currentPropertyDictionary = new Dictionary<string, object>();
+
+                    foreach (var split in splitPageUrl)
+                    {
+                        var currentUrl = "/" + split;
+
+                        currentPropertyDictionary = MergePropertyDictionaries(currentPropertyDictionary, await LoadPropertiesDictionaryFromUrl(currentUrl, AppPageSettings.PropertiesMasterFileName));
+                    }
+
+                    foreach (var property in AppPageProperties.WriteableProperties)
+                    {
+                        if (currentPropertyDictionary.TryGetValue(property.Name, out var value))
+                        {
+                            property.SetValue(Properties, Convert.ChangeType(value, property.PropertyType));
+                        }
+                    }
+
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
+        private Dictionary<string, object> MergePropertyDictionaries(Dictionary<string, object> basePropertyDictionary, Dictionary<string, object> overridingPropertyDictionary) 
+        {
+            foreach (var kvp in overridingPropertyDictionary) 
+            {
+                basePropertyDictionary[kvp.Key] = kvp.Value;
+            }
+
+            return basePropertyDictionary;
+        }
+
+        private async Task<T> LoadPropertiesFromUrl<T>(string url, string propertiesFileName) where T : new()
+        {
+            var propertiesFileUrl = AppUrl.Join(url, propertiesFileName);
+
+            if (AppUrl.Exists(propertiesFileUrl))
+            {
+                var propertiesCandidate = YamlDeserializer.Deserialize<T>(await AppUrl.ReadAllTextAsync(propertiesFileUrl));
                 if (propertiesCandidate != null)
                 {
-                    properties = propertiesCandidate;
+                    return propertiesCandidate;
                 }
             }
 
-            var propertiesNavItem = AppPagePropertiesNavItem.Default;
-
-            if (AppFile.Exists(propertiesLayoutFilePath))
-            {
-                var propertiesNavItemCandidate = YamlDeserializer.Deserialize<AppPagePropertiesNavItem>(await AppFile.ReadAllTextAsync(propertiesLayoutFilePath));
-                if (propertiesNavItemCandidate != null)
-                {
-                    propertiesNavItem = propertiesNavItemCandidate;
-                }
-            }
-
-            var propertiesExtra = new ExpandoObject();
-
-            if (AppFile.Exists(propertiesExtraFilePath))
-            {
-                var propertiesExtraCandidate = YamlDeserializer.Deserialize<ExpandoObject>(await AppFile.ReadAllTextAsync(propertiesExtraFilePath));
-                if (propertiesExtraCandidate != null)
-                {
-                    propertiesExtra = propertiesExtraCandidate;
-                }
-            }
-
-            Properties = properties;
-            PropertiesNavItem = propertiesNavItem;
-            PropertiesExtra = propertiesExtra;
+            return new T();
         }
+
+        private async Task<Dictionary<string, object>> LoadPropertiesDictionaryFromUrl(string url, string propertiesFileName) 
+        {
+            var propertiesFileUrl = AppPath.Join(url, propertiesFileName);
+
+            if (AppUrl.Exists(propertiesFileUrl))
+            {
+                var propertiesCandidate = YamlDeserializer.Deserialize<Dictionary<string, object>>(await AppUrl.ReadAllTextAsync(propertiesFileUrl));
+                if (propertiesCandidate != null)
+                {
+                    return propertiesCandidate;
+                }
+            }
+
+            return new Dictionary<string, object>();
+        }
+
 
         private string[] GetParameterKeys(string url)
         {

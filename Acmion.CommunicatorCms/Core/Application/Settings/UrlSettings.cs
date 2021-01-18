@@ -11,32 +11,42 @@ namespace Acmion.CommunicatorCms.Core.Settings
 
         public static string CmsRootUrl { get; } = "/cms";
 
-        public static string CmsCommunicatorCmsUrl { get; } = "/cms/communicator-cms";
-        public static string CmsCommunicatorCmsApiUrl { get; } = "/cms/communicator-cms/api";
-        public static string CmsCommunicatorCmsThemesUrl { get; } = "/cms/communicator-cms/_themes";
-        public static string CmsCommunicatorCmsExtensionsUrl { get; } = "/cms/communicator-cms/_extensions";
+        public static string CmsSecondClassUrl { get; } = "/cms/++";
 
-        public static string CmsGeneralUrl { get; } = "/cms/_general";
-        public static string CmsGeneralSettingsUrl { get; } = "/cms/_general/settings";
-        public static string CmsGeneralSettingsExtensionsUrl { get; } = "/cms/_general/settings/extensions";
+        public static string CmsThirdClassUrl { get; } = "/cms/+++";
+        public static string CmsThirdClassApiUrl { get; } = "/cms/+++/api";
+        public static string CmsThirdClassThemesUrl { get; } = "/cms/+++/themes";
+        public static string CmsThirdClassExtensionsUrl { get; } = "/cms/+++/extensions";
+
 
         public static string ContentRootUrl { get; } = "/";
 
-        public static string ContentCommunicatorCmsUrl { get; } = "/communicator-cms";
-        public static string ContentCommunicatorCmsApiUrl { get; } = "/communicator-cms/api";
-        public static string ContentCommunicatorCmsThemesUrl { get; } = "/communicator-cms/_themes";
-        public static string ContentCommunicatorCmsExtensionsUrl { get; } = "/communicator-cms/_extensions";
+        public static string ContentSecondClassUrl { get; } = "/++";
+        
+        public static string ContentSecondClassHeadFileUrl { get; } = "/++/head.cshtml";
+        public static string ContentSecondClassHeadAppendFileUrl { get; } = "/++/head-append.cshtml";
+        public static string ContentSecondClassHeadPrependFileUrl { get; } = "/++/head-prepend.cshtml";
 
-        public static string ContentGeneralUrl { get; } = "/_general";
-        public static string ContentGeneralSettingsUrl { get; } = "/_general/settings";
-        public static string ContentGeneralSettingsThemeUrl { get; } = "/_general/settings/themes";
-        public static string ContentGeneralSettingsExtensionUrl { get; } = "/_general/settings/extensions";
+        public static string ContentSecondClassHeaderFileUrl { get; } = "/++/header.cshtml";
+        public static string ContentSecondClassHeaderAppendFileUrl { get; } = "/++/header-append.cshtml";
+        public static string ContentSecondClassHeaderPrependFileUrl { get; } = "/++/header-prepend.cshtml";
 
-        public static string ContentGeneralFooterFileUrl = "/_general/footer/footer.cshtml";
-        public static string ContentGeneralHeadFileUrl = "/_general/head/head.cshtml";
-        public static string ContentGeneralMetaFileUrl = "/_general/meta/meta.cshtml";
-        public static string ContentGeneralHeaderNavMenuExtraFileUrl = "/_general/header/nav-menu-extra.cshtml";
-        public static string ContentGeneralScriptsFileUrl = "/_general/scripts/scripts.cshtml";
+        public static string ContentSecondClassFooterFileUrl { get; } = "/++/footer.cshtml";
+        public static string ContentSecondClassFooterAppendFileUrl { get; } = "/++/footer-append.cshtml";
+        public static string ContentSecondClassFooterPrependFileUrl { get; } = "/++/footer-prepend.cshtml";
+
+        public static string ContentSecondClassScriptsFileUrl { get; } = "/++/scripts.cshtml";
+        public static string ContentSecondClassScriptsAppendFileUrl { get; } = "/++/scripts-append.cshtml";
+        public static string ContentSecondClassScriptsPrependFileUrl { get; } = "/++/scripts-prepend.cshtml";
+
+        public static string ContentSecondClassMenuTopUrl { get; } = "/++/menu-top.cshtml";
+        public static string ContentSecondClassMenuLeftUrl { get; } = "/++/menu-side.cshtml";
+        public static string ContentSecondClassMenuRightUrl { get; } = "/++/menu-side.cshtml";
+
+        public static string ContentThirdClassUrl { get; } = "/+++";
+        public static string ContentThirdClassApiUrl { get; } = "/+++/api";
+        public static string ContentThirdClassThemesUrl { get; } = "/+++/themes";
+        public static string ContentThirdClassExtensionsUrl { get; } = "/+++/extensions";
 
     }
 }

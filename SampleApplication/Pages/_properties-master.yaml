@@ -1,0 +1,5 @@
+Layout: LandingPage
+RenderLeftMenu: false
+RenderRightMenu: false
+RenderFooter: false
+RenderMain: False

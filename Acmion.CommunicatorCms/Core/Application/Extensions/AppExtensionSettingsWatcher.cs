@@ -21,8 +21,8 @@ namespace Acmion.CommunicatorCms.Core.Application.Extensions
 
         public AppExtensionSettingsWatcher() 
         {
-            CmsExtensionSettingsWatcher = CreateExtensionWatcher(UrlSettings.CmsCommunicatorCmsExtensionsUrl, CmsExtensionSettingsChanged, CmsExtensionSettingsChanged, CmsExtensionSettingsWatcherError);
-            ContentExtensionSettingsWatcher = CreateExtensionWatcher(UrlSettings.ContentCommunicatorCmsExtensionsUrl, ContentExtensionSettingsChanged, ContentExtensionSettingsChanged, ContentExtensionSettingsWatcherError);
+            CmsExtensionSettingsWatcher = CreateExtensionWatcher(UrlSettings.CmsThirdClassExtensionsUrl, CmsExtensionSettingsChanged, CmsExtensionSettingsChanged, CmsExtensionSettingsWatcherError);
+            ContentExtensionSettingsWatcher = CreateExtensionWatcher(UrlSettings.ContentThirdClassExtensionsUrl, ContentExtensionSettingsChanged, ContentExtensionSettingsChanged, ContentExtensionSettingsWatcherError);
         }
 
         private FileSystemWatcher CreateExtensionWatcher(string url, FileSystemEventHandler onChanged, RenamedEventHandler onRenamed, ErrorEventHandler onError) 
@@ -48,12 +48,12 @@ namespace Acmion.CommunicatorCms.Core.Application.Extensions
 
         private void CmsExtensionSettingsChanged(object sender, FileSystemEventArgs e)
         {
-            AddChangedExtension(e.FullPath, UrlSettings.CmsCommunicatorCmsExtensionsUrl, CmsChangedExtensionSettingsUrls);
+            AddChangedExtension(e.FullPath, UrlSettings.CmsThirdClassExtensionsUrl, CmsChangedExtensionSettingsUrls);
         }
 
         private void ContentExtensionSettingsChanged(object sender, FileSystemEventArgs e)
         {
-            AddChangedExtension(e.FullPath, UrlSettings.ContentCommunicatorCmsExtensionsUrl, ContentChangedExtensionSettingsUrls);
+            AddChangedExtension(e.FullPath, UrlSettings.ContentThirdClassExtensionsUrl, ContentChangedExtensionSettingsUrls);
         }
 
         private void CmsExtensionSettingsWatcherError(object sender, ErrorEventArgs e)

@@ -1,0 +1,132 @@
+﻿@inject RequestState RequestState;
+
+@{ 
+    await App.OnRequestStart(Html);
+
+    var currentPage = RequestState.CurrentAppPage;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <partial name="@GeneralSettings.RazorPagesRootAppPath@UrlSettings.ContentSecondClassHeaderPrependFileUrl" optional="true" />
+    <partial name="@GeneralSettings.RazorPagesRootAppPath@UrlSettings.ContentSecondClassHeadFileUrl" fallback-name="partials/head.cshtml" />
+    <partial name="@GeneralSettings.RazorPagesRootAppPath@UrlSettings.ContentSecondClassHeaderAppendFileUrl" optional="true" />
+</head>
+
+<body>
+    @if (currentPage.Properties.RenderHeader)
+    {
+        <header class="@App.ThemeSettings.HeaderClass" id="ccms-header">
+            <partial name="@GeneralSettings.RazorPagesRootAppPath@UrlSettings.ContentSecondClassHeaderPrependFileUrl" optional="true" />
+            <partial name="@GeneralSettings.RazorPagesRootAppPath@UrlSettings.ContentSecondClassHeaderFileUrl" fallback-name="partials/header.cshtml" />
+            <partial name="@GeneralSettings.RazorPagesRootAppPath@UrlSettings.ContentSecondClassHeaderAppendFileUrl" optional="true" />
+        </header>
+    }
+
+    @if (currentPage.Properties.RenderTopMenu)
+    {
+        <div class="@App.ThemeSettings.MenuTopClass" id="ccms-menu-top">
+            <partial name="@GeneralSettings.RazorPagesRootAppPath@UrlSettings.ContentSecondClassMenuTopUrl" fallback-name="partials/menu-top.cshtml" />
+        </div>
+    }
+
+    @if (currentPage.Properties.RenderLeftMenu && currentPage.Properties.RenderRightMenu)
+    {
+        var classes = App.ThemeSettings.CenterLayout.MainAndLeftAndRight;
+
+        <div class="@classes.CenterClass" id="ccms-center">
+            <div class="@classes.MenuLeftWrapperClass" id="ccms-menu-left-wrapper">
+                <div class="@classes.MenuLeftClass" id="ccms-menu-left">
+                    <partial name="@GeneralSettings.RazorPagesRootAppPath@UrlSettings.ContentSecondClassMenuTopUrl" fallback-name="partials/menu-left.cshtml" />
+                </div>
+            </div>
+
+            <div class="@classes.MainWrapperClass" id="ccms-main-wrapper">
+                <main class="@classes.MainClass" id="ccms-main">
+                    @RenderBody()
+                    @await currentPage.Render(this, this.Html, Model)
+                </main>
+            </div>
+
+            <div class="@classes.MenuRightWrapperClass" id="ccms-menu-right-wrapper">
+                <div class="@classes.MenuRightClass" id="ccms-menu-right">
+                    <partial name="@GeneralSettings.RazorPagesRootAppPath@UrlSettings.ContentSecondClassMenuTopUrl" fallback-name="partials/menu-right.cshtml" />
+                </div>
+            </div>
+        </div>
+    }
+    else if (currentPage.Properties.RenderLeftMenu)
+    {
+        var classes = App.ThemeSettings.CenterLayout.MainAndLeft;
+
+        <div class="@classes.CenterClass" id="ccms-center">
+            <div class="@classes.MenuLeftWrapperClass" id="ccms-menu-left-wrapper">
+                <div class="@classes.MenuLeftClass" id="ccms-menu-left">
+                    <partial name="@GeneralSettings.RazorPagesRootAppPath@UrlSettings.ContentSecondClassMenuTopUrl" fallback-name="partials/menu-left.cshtml" />
+                </div>
+            </div>
+
+            <div class="@classes.MainWrapperClass" id="ccms-main-wrapper">
+                <main class="@classes.MainClass" id="ccms-main">
+                    @RenderBody()
+                    @await currentPage.Render(this, this.Html, Model)
+                </main>
+            </div>
+        </div>
+    }
+    else if (currentPage.Properties.RenderRightMenu)
+    {
+        var classes = App.ThemeSettings.CenterLayout.MainAndRight;
+
+        <div class="@classes.CenterClass" id="ccms-center">
+            <div class="@classes.MainWrapperClass" id="ccms-main-wrapper">
+                <main class="@classes.MainClass" id="ccms-main">
+                    @RenderBody()
+                    @await currentPage.Render(this, this.Html, Model)
+                </main>
+            </div>
+
+            <div class="@classes.MenuRightWrapperClass" id="ccms-menu-right-wrapper">
+                <div class="@classes.MenuRightClass" id="ccms-menu-right">
+                    <partial name="@GeneralSettings.RazorPagesRootAppPath@UrlSettings.ContentSecondClassMenuTopUrl" fallback-name="partials/menu-right.cshtml" />
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        var classes = App.ThemeSettings.CenterLayout.Main;
+
+        <div class="@classes.CenterClass" id="ccms-center">
+            <div class="@classes.MainWrapperClass" id="ccms-main-wrapper">
+                <main class="@classes.MainClass" id="ccms-main">
+                    @RenderBody()
+                    @await currentPage.Render(this, this.Html, Model)
+                </main>
+            </div>
+        </div>
+    }
+
+    @if (currentPage.Properties.RenderFooter)
+    {
+        <footer class="@App.ThemeSettings.FooterClass" id="ccms-footer">
+            <partial name="@GeneralSettings.RazorPagesRootAppPath@UrlSettings.ContentSecondClassFooterPrependFileUrl" optional="true" />
+            <partial name="@GeneralSettings.RazorPagesRootAppPath@UrlSettings.ContentSecondClassFooterFileUrl" fallback-name="partials/footer.cshtml" />
+            <partial name="@GeneralSettings.RazorPagesRootAppPath@UrlSettings.ContentSecondClassFooterAppendFileUrl" optional="true" />
+        </footer>
+    }
+
+    <div style="display: none" id="ccms-scripts">
+        <partial name="@GeneralSettings.RazorPagesRootAppPath@UrlSettings.ContentSecondClassScriptsPrependFileUrl" optional="true" />
+        <partial name="@GeneralSettings.RazorPagesRootAppPath@UrlSettings.ContentSecondClassScriptsFileUrl" fallback-name="partials/scripts.cshtml" />
+        <partial name="@GeneralSettings.RazorPagesRootAppPath@UrlSettings.ContentSecondClassScriptsAppendFileUrl" optional="true" />
+    </div>
+</body>
+
+</html>
+
+
+
+
+

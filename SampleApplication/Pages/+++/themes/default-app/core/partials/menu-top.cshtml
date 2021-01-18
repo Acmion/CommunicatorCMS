@@ -1,0 +1,134 @@
+﻿@using System.Net.Http;
+@using Acmion.CommunicatorCms.Core.Settings;
+@using Acmion.CommunicatorCms.Core.Actions;
+@using Utf8Json;
+@using Acmion.CommunicatorCms.Core;
+@using Acmion.CommunicatorCms;
+@using Acmion.CommunicatorCms.Core.Application.FileSystem;
+@using Acmion.CommunicatorCms.Core.Application.Pages;
+
+@inject RequestState RequestState;
+
+@{
+    var rootPage = RequestState.CurrentRootAppPage;
+    var activePage = RequestState.CurrentAppPage;
+}
+
+<nav class="hn-menu hn-menu-no-focus hn-top hn-fixed hn-shadow">
+    <input type="checkbox" id="hn-top-nav-cb" class="hn-input-state hn-input-state-nav hn-hide-desktop">
+    <div class="hn-nav container-md p-0">
+        <div class="hn-section hn-section-brand" style="flex-grow: 0">
+            @{
+                if (App.Settings.LogoIcon != "" || App.Settings.LogoContent != "")
+                {
+                    <div class="hn-item">
+                        <a class="hn-link" href="/">
+                            <span class="hn-icon hn-size-auto">
+                                @Html.Raw(App.Settings.LogoIcon)
+                            </span>
+                            <span class="hn-content">
+                                @Html.Raw(App.Settings.LogoContent)
+                            </span>
+                        </a>
+                    </div>
+                }
+            }
+
+            <div class="hn-spacer">
+
+            </div>
+
+            <label class="hn-item hn-input hn-input-nav hn-hide-desktop" for="hn-top-nav-cb">
+                <span class="hn-link">
+                    <span class="hn-content">
+                        <span class="hn-input-active">
+                            <i class="ri-close-line"></i>
+                        </span>
+                        <span class="hn-input-default">
+                            <i class="ri-menu-line"></i>
+                        </span>
+                    </span>
+                </span>
+            </label>
+        </div>
+        <div class="hn-section hn-section-body">
+            @{
+                @await App.Extensions.HyperNav.RenderCommunicatorCmsNavLayout(rootPage, RequestState, "top-nav-cb", false, true, true, 0)
+
+                var suffix = 0;
+                foreach (var subPage in await rootPage.GetSubPages())
+                {
+                    @await App.Extensions.HyperNav.RenderCommunicatorCmsNavLayout(subPage, RequestState, "top-nav-cb" + suffix, true, true, true, int.MaxValue)
+                    suffix++;
+                }
+
+            }
+
+            <div class="hn-spacer"></div>
+
+            <div class="hn-expand hn-expand-left">
+                <input type="checkbox" id="top-user-cb" class="hn-input-state hn-hide-desktop"> 
+                <div class="hn-item">
+                    <a class="hn-link">
+                        <span class="hn-icon">
+                            <i class="ri-account-box-line"></i>
+                        </span>
+                        <span class="hn-content">
+                            Username
+                        </span>
+                        <span class="hn-input hn-hide-mobile">
+                            <span class="hn-input-default">
+                                <i class="ri-add-line"></i>
+                            </span>
+                            <span class="hn-input-active">
+                                <i class="ri-subtract-line"></i>
+                            </span>
+                        </span>
+                    </a>
+                    <label class="hn-input hn-hide-desktop" for="top-user-cb">
+                        <span class="hn-input-default">
+                            <i class="ri-add-line"></i>
+                        </span>
+                        <span class="hn-input-active">
+                            <i class="ri-subtract-line"></i>
+                        </span>
+                    </label>
+                </div>
+                <div class="hn-expand-body" style="min-width: 20rem">
+                    <div class="hn-item">
+                        <a class="hn-link">
+                            <span class="hn-icon">
+                                <i class="ri-profile-line"></i>
+                            </span>
+                            <span class="hn-content">
+                                Profile
+                            </span>
+                        </a>
+                    </div>
+                    <div class="hn-item">
+                        <a class="hn-link">
+                            <span class="hn-icon">
+                                <i class="ri-settings-2-line"></i>
+                            </span>
+                            <span class="hn-content">
+                                Settings
+                            </span>
+                        </a>
+                    </div>
+                    <div class="hn-item">
+                        <a class="hn-link">
+                            <span class="hn-icon">
+                                <i class="ri-logout-box-r-line"></i>
+                            </span>
+                            <span class="hn-content">
+                                Sign Out
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <label class="hn-overlay hn-overlay-nav hn-hide-desktop" for="hn-top-nav-cb">
+    </label>
+</nav>

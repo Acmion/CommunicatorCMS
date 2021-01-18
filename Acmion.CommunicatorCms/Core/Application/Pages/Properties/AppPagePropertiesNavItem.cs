@@ -7,8 +7,6 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages.Properties
 {
     public class AppPagePropertiesNavItem
     {
-        public static AppPagePropertiesNavItem Default { get; } = new AppPagePropertiesNavItem();
-
         public SourcePagePropertiesNavItemContext Top { get; set; } = new SourcePagePropertiesNavItemContext();
         public SourcePagePropertiesNavItemContext Side { get; set; } = new SourcePagePropertiesNavItemContext();
         public SourcePagePropertiesNavItemContext Shared { get; set; } = new SourcePagePropertiesNavItemContext();

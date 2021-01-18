@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Acmion.CommunicatorCms.Core.Settings
+namespace Acmion.CommunicatorCms.Core.Application
 {
     public class AppSettings
     {
@@ -12,7 +12,7 @@ namespace Acmion.CommunicatorCms.Core.Settings
         public string LogoIcon { get; set; } = "";
         public string LogoContent { get; set; } = "";
         
-        public string Theme { get; set; } = ThemeSettings.DefaultName;
+        public string Theme { get; set; } = "";
 
         public string Version { get; set; } = "";
 

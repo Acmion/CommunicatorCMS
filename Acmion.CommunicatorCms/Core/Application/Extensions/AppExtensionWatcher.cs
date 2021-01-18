@@ -10,25 +10,17 @@ namespace Acmion.CommunicatorCms.Core.Application.Extensions
 {
     public class AppExtensionWatcher
     {
-        public bool CmsExtensionWatcherFailed { get; set; }
-        public bool ContentExtensionWatcherFailed { get; set; }
+        public bool Failed { get; set; }
 
-        public HashSet<string> CmsChangedExtensionUrls { get; } = new HashSet<string>();
-        public HashSet<string> ContentChangedExtensionUrls { get; } = new HashSet<string>();
+        public HashSet<string> ChangedExtensionUrls { get; } = new HashSet<string>();
 
-        public FileSystemWatcher CmsExtensionWatcher { get; }
-        public FileSystemWatcher ContentExtensionWatcher { get; }
-
-        public FileSystemWatcher CmsExtensionSettingsWatcher { get; }
-        public FileSystemWatcher ContentExtensionSettingsWatcher { get; }
+        public FileSystemWatcher ExtensionWatcher { get; }
+        public FileSystemWatcher ExtensionSettingsWatcher { get; }
 
         public AppExtensionWatcher() 
         {
-            CmsExtensionWatcher = CreateExtensionWatcher(UrlSettings.CmsCommunicatorCmsExtensionsUrl, CmsExtensionChanged, CmsExtensionChanged, CmsExtensionWatcherError);
-            ContentExtensionWatcher = CreateExtensionWatcher(UrlSettings.ContentCommunicatorCmsExtensionsUrl, ContentExtensionChanged, ContentExtensionChanged, ContentExtensionWatcherError);
-
-            CmsExtensionSettingsWatcher = CreateExtensionWatcher(UrlSettings.CmsGeneralSettingsExtensionsUrl, CmsExtensionChanged, CmsExtensionChanged, CmsExtensionWatcherError);
-            ContentExtensionSettingsWatcher = CreateExtensionWatcher(UrlSettings.ContentGeneralSettingsExtensionUrl, ContentExtensionChanged, ContentExtensionChanged, ContentExtensionWatcherError);
+            ExtensionWatcher = CreateExtensionWatcher(UrlSettings.ContentThirdClassExtensionsUrl, ExtensionChanged, ExtensionChanged, ExtensionWatcherError);
+            //ExtensionSettingsWatcher = CreateExtensionWatcher(UrlSettings.ContentGeneralSettingsExtensionUrl, ContentExtensionChanged, ContentExtensionChanged, ContentExtensionWatcherError);
         }
 
         private FileSystemWatcher CreateExtensionWatcher(string url, FileSystemEventHandler onChanged, RenamedEventHandler onRenamed, ErrorEventHandler onError) 
@@ -52,31 +44,18 @@ namespace Acmion.CommunicatorCms.Core.Application.Extensions
             return watcher;
         }
 
-        private void CmsExtensionChanged(object sender, FileSystemEventArgs e)
+        private void ExtensionChanged(object sender, FileSystemEventArgs e)
         {
-            AddChangedExtension(e.FullPath, UrlSettings.CmsCommunicatorCmsExtensionsUrl, CmsChangedExtensionUrls);
+            AddChangedExtension(e.FullPath, UrlSettings.ContentThirdClassExtensionsUrl, ChangedExtensionUrls);
         }
-
-        private void ContentExtensionChanged(object sender, FileSystemEventArgs e)
+        private void ExtensionWatcherError(object sender, ErrorEventArgs e)
         {
-            AddChangedExtension(e.FullPath, UrlSettings.ContentCommunicatorCmsExtensionsUrl, ContentChangedExtensionUrls);
-        }
-
-        private void CmsExtensionWatcherError(object sender, ErrorEventArgs e)
-        {
-            CmsExtensionWatcherFailed = true;
-        }
-
-        private void ContentExtensionWatcherError(object sender, ErrorEventArgs e)
-        {
-            ContentExtensionWatcherFailed = true;
+            Failed = true;
         }
 
         private void AddChangedExtension(string fullPath, string extensionRootUrl, HashSet<string> changedExtensionUrls) 
         {
-            var formattedFullPath = fullPath.Replace('\\', '/')
-                                            .Replace(UrlSettings.CmsGeneralSettingsExtensionsUrl, UrlSettings.CmsCommunicatorCmsExtensionsUrl)
-                                            .Replace(UrlSettings.ContentGeneralSettingsExtensionUrl, UrlSettings.ContentCommunicatorCmsExtensionsUrl);
+            var formattedFullPath = fullPath.Replace('\\', '/');
             var fullUrl = AppPath.ConvertAbsolutePathToAppUrl(formattedFullPath);
             var separatorIndex = fullUrl.IndexOf(AppUrl.Separator, extensionRootUrl.Length + 1);
 

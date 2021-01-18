@@ -8,7 +8,6 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages.Properties
 {
     public class AppPagePropertiesExtra
     {
-        public static AppPagePropertiesExtra Default = new AppPagePropertiesExtra();
 
     }
 }

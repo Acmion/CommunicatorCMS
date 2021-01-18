@@ -13,11 +13,8 @@ namespace Acmion.CommunicatorCms.Core.Application.Extensions
         public string Id { get; }
         public string Name { get; }
 
-        public string CmsSettingsRootUrl => AppUrl.Join(UrlSettings.CmsGeneralSettingsExtensionsUrl, Id);
-        public string ContentSettingsRootUrl => AppUrl.Join(UrlSettings.ContentGeneralSettingsExtensionUrl, Id);
-
-        public bool CmsSettingsRootUrlExists => AppUrl.Exists(CmsSettingsRootUrl);
-        public bool ContentSettingsRootUrlExists => AppUrl.Exists(ContentSettingsRootUrl);
+        public string SettingsFileUrl => AppUrl.Join(UrlSettings.ContentThirdClassExtensionsUrl, Id, "_settings.yaml");
+        public bool SettingsFileExists => AppUrl.Exists(SettingsFileUrl);
 
         public AppExtension(string id, string name) 
         {

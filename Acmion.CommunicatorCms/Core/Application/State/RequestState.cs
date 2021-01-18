@@ -24,6 +24,7 @@ namespace Acmion.CommunicatorCms.Core
         public string Url { get; private set; } = "/";
         public string Query { get; private set; } = "";
         public AppPage CurrentAppPage { get; private set; } = null!;
+        public AppPage CurrentRootAppPage { get; private set; } = null!;
 
         public dynamic Parameters { get; private set; } = new ExpandoObject();
         public string[] ParameterValues { get; private set; } = new string[0];
@@ -53,6 +54,7 @@ namespace Acmion.CommunicatorCms.Core
             Query = query;
             ParameterValues = parameterValues;
             CurrentAppPage = currentAppPage;
+            CurrentRootAppPage = await currentAppPage.GetRootPage();
 
             Breadcrumb = await Breadcrumb.GetFromAppPage(currentAppPage);
             Title = Breadcrumb.LastBreadcrumbItem.Title;

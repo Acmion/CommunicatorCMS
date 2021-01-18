@@ -1,8 +1,39 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Pages\communicator-cms\**" />
+    <Content Remove="Pages\communicator-cms\**" />
+    <EmbeddedResource Remove="Pages\communicator-cms\**" />
+    <None Remove="Pages\communicator-cms\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Pages\+++\themes\default-app\core\layout.cshtml" />
+    <Content Remove="Pages\+++\themes\default-app\core\partials\footer.cshtml" />
+    <Content Remove="Pages\+++\themes\default-app\core\partials\head.cshtml" />
+    <Content Remove="Pages\+++\themes\default-app\core\partials\header.cshtml" />
+    <Content Remove="Pages\+++\themes\default-app\core\partials\menu-left.cshtml" />
+    <Content Remove="Pages\+++\themes\default-app\core\partials\menu-right.cshtml" />
+    <Content Remove="Pages\+++\themes\default-app\core\partials\menu-top.cshtml" />
+    <Content Remove="Pages\+++\themes\default-app\core\partials\scripts.cshtml" />
+    <Content Remove="Pages\+++\themes\default-app\core\_ViewImports.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\+++\themes\default-app\core\layout.cshtml" />
+    <None Include="Pages\+++\themes\default-app\core\partials\footer.cshtml" />
+    <None Include="Pages\+++\themes\default-app\core\partials\head.cshtml" />
+    <None Include="Pages\+++\themes\default-app\core\partials\menu-right.cshtml" />
+    <None Include="Pages\+++\themes\default-app\core\partials\menu-left.cshtml" />
+    <None Include="Pages\+++\themes\default-app\core\partials\header.cshtml" />
+    <None Include="Pages\+++\themes\default-app\core\partials\menu-top.cshtml" />
+    <None Include="Pages\+++\themes\default-app\core\partials\scripts.cshtml" />
+    <None Include="Pages\+++\themes\default-app\core\_ViewImports.cshtml" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.9" />
@@ -10,10 +41,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Acmion.CommunicatorCms\Acmion.CommunicatorCms.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Pages\_general\settings\extensions\NewFolder\" />
   </ItemGroup>
 
 

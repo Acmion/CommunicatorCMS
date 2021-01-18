@@ -42,7 +42,7 @@ namespace Acmion.CommunicatorCms.Core.Application.Extensions
         {
             _appExtensionContainer.Clear();
 
-            var extensionRootUrls = new[] { UrlSettings.CmsCommunicatorCmsExtensionsUrl, UrlSettings.ContentCommunicatorCmsExtensionsUrl };
+            var extensionRootUrls = new[] { UrlSettings.ContentThirdClassExtensionsUrl };
 
             foreach (var extRootUrl in extensionRootUrls)
             {
