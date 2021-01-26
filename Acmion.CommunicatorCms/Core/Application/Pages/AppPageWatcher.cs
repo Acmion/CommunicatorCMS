@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,8 +15,8 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages
         public bool CmsPageWatcherFailed { get; set; }
         public bool ContentPageWatcherFailed { get; set; }
 
-        public HashSet<string> CmsChangedPageUrls { get; } = new HashSet<string>();
-        public HashSet<string> ContentChangedPageUrls { get; } = new HashSet<string>();
+        public ConcurrentDictionary<string, bool> CmsChangedPageUrls { get; } = new ConcurrentDictionary<string, bool>();
+        public ConcurrentDictionary<string, bool> ContentChangedPageUrls { get; } = new ConcurrentDictionary<string, bool>();
 
         public FileSystemWatcher CmsPageWatcher { get; }
         public FileSystemWatcher ContentPageWatcher { get; }
@@ -107,7 +108,7 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages
             ContentPageWatcherFailed = true;
         }
 
-        private void AddChangedPage(string fullPath, object sender, HashSet<string> changedPageUrls)
+        private void AddChangedPage(string fullPath, object sender, ConcurrentDictionary<string, bool> changedPageUrls)
         {
             var replaced = fullPath.Replace('\\', '/');
             var pageUrl = AppPath.ConvertAbsolutePathToAppUrl(replaced);
@@ -119,9 +120,9 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages
                 pageUrl = AppPath.GetDirectoryName(pageUrl);
             }
 
-            if (!changedPageUrls.Contains(pageUrl) && AppPage.IsUrlAppPage(pageUrl)) 
+            if (!changedPageUrls.ContainsKey(pageUrl) && AppPage.IsUrlAppPage(pageUrl)) 
             {
-                changedPageUrls.Add(pageUrl);
+                changedPageUrls[pageUrl] = true;
             }
         }
     }

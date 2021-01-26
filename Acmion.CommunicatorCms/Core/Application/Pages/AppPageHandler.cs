@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,8 +9,8 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages
 {
     public class AppPageHandler
     {
-        public Dictionary<string, AppPage> AppPagesByUrl { get; } = new Dictionary<string, AppPage>();
-        public Dictionary<string, AppPage> AppPagesByActualUrl { get; } = new Dictionary<string, AppPage>();
+        public ConcurrentDictionary<string, AppPage> AppPagesByUrl { get; } = new ConcurrentDictionary<string, AppPage>();
+        public ConcurrentDictionary<string, AppPage> AppPagesByActualUrl { get; } = new ConcurrentDictionary<string, AppPage>();
 
         public async Task<AppPage> GetByUrl(string url)
         {
@@ -68,14 +69,14 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages
                 fixedUrl = url.Remove(url.Length - 1);
             }
 
-            AppPagesByUrl.Remove(url);
-            AppPagesByUrl.Remove(fixedUrl);
+            AppPagesByUrl.Remove(url, out var appPage0);
+            AppPagesByUrl.Remove(fixedUrl, out var appPage1);
                                             
             var actualUrl = AppPage.GetActualAppPageUrl(url);
             var fixedActualUrl = AppPage.GetActualAppPageUrl(actualUrl);
 
-            AppPagesByActualUrl.Remove(actualUrl);
-            AppPagesByActualUrl.Remove(fixedActualUrl);
+            AppPagesByActualUrl.Remove(actualUrl, out var appPage2);
+            AppPagesByActualUrl.Remove(fixedActualUrl, out var appPage3);
         }
     }
 }

@@ -28,6 +28,10 @@ namespace Acmion.CommunicatorCms.Core.Application.UrlRewrite
             var requestedUrl = AppUrl.ConvertAspNetCoreUrlToActualUrl(customRewrittenRequest.Url);
             var requestedQuery = customRewrittenRequest.Query;
 
+            // Get baseUrl and parameters
+            var baseUrlAndParameterValues = AppPage.GetBaseUrlAndParameterValues(requestedUrl);
+            var actualAppPageUrl = AppPage.GetActualAppPageUrl(baseUrlAndParameterValues);
+
             if (!AppUrl.IsDirectlyServable(requestedUrl))
             {
                 return;
@@ -38,7 +42,7 @@ namespace Acmion.CommunicatorCms.Core.Application.UrlRewrite
                 context.Request.QueryString = new QueryString(requestedQuery);
             }
 
-            if (AppPage.IsUrlAppPage(requestedUrl))
+            if (AppPage.IsUrlAppPage(actualAppPageUrl))
             {
                 // All urls should end with slash, if not a file
                 if (!context.Request.Path.Value.EndsWith(AppUrl.Separator))
@@ -49,9 +53,6 @@ namespace Acmion.CommunicatorCms.Core.Application.UrlRewrite
                     return;
                 }
 
-                // Get baseUrl and parameters
-                var baseUrlAndParameterValues = AppPage.GetBaseUrlAndParameterValues(requestedUrl);
-                var actualAppPageUrl = AppPage.GetActualAppPageUrl(baseUrlAndParameterValues);
 
                 var currentAppPage = await App.Pages.GetByUrl(actualAppPageUrl);
 

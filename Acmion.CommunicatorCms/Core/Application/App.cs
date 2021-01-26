@@ -100,8 +100,10 @@ namespace Acmion.CommunicatorCms.Core.Application
 
                     var allPageUrls = PageWatcher.ContentChangedPageUrls.Concat(PageWatcher.CmsChangedPageUrls);
 
-                    foreach (var pageUrl in allPageUrls)
+                    foreach (var kvp in allPageUrls)
                     {
+                        var pageUrl = kvp.Key;
+
                         if (AppPage.IsUrlAppPage(pageUrl))
                         {
                             var appPage = await Pages.GetByUrl(pageUrl);
