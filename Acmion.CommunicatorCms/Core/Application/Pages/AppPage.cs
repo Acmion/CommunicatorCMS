@@ -79,6 +79,11 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages
                 baseUrl = AppUrl.ParentUrl(baseUrl);
             }
 
+            if (baseUrl == "/") 
+            {
+                return new AppPageBaseUrlAndParameterValues(url, new string[0]);
+            }
+
             var parameters = url.Substring(baseUrl.Length, url.Length - baseUrl.Length).Split(AppUrl.Separator, StringSplitOptions.RemoveEmptyEntries);
 
             return new AppPageBaseUrlAndParameterValues(baseUrl, parameters);
