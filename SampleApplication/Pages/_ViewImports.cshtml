@@ -8,11 +8,15 @@
 
 @using Microsoft.AspNetCore.Html;
 @using Microsoft.AspNetCore.Mvc.Razor;
+@using Microsoft.AspNetCore.Authentication;
+@using Microsoft.AspNetCore.Authentication.Cookies;
 
 @using System.IO;
 @using System.Web;
 @using System.Diagnostics;
 @using System.Collections.Specialized;
+@using System.Security.Claims;
+@using System.Security.Principal;
 
 @inject RequestState RequestState;
 

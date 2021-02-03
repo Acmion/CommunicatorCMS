@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Acmion.CommunicatorCms.Core.Application.Extensions;
 using Acmion.CommunicatorCms.Core.Application.FileSystem;
 using Acmion.CommunicatorCms.Core.Application.Pages;
+using Acmion.CommunicatorCms.Core.Application.Translations;
 using Acmion.CommunicatorCms.Core.Application.UrlRewrite;
 using Acmion.CommunicatorCms.Core.Settings;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -27,13 +28,18 @@ namespace Acmion.CommunicatorCms.Core.Application
         public static AppExtensionHandler ExtensionHandler { get; } = new AppExtensionHandler();
         public static AppExtensionWatcher ExtensionWatcher { get; } = new AppExtensionWatcher();
 
+        public static TranslationHandler TranslationHandler { get; } = new TranslationHandler();
+        public static TranslationWatcher TranslationWatcher { get; } = new TranslationWatcher();
+
         public static IUrlRewriter UrlRewriteCustom { get; set; } = new UrlRewriterNone();
 
         private static bool Launched { get; set; }
         private static SemaphoreSlim PageSemaphoreSlim = new SemaphoreSlim(1, 1);
         private static SemaphoreSlim ExtensionSemaphoreSlim = new SemaphoreSlim(1, 1);
+        private static SemaphoreSlim TranslationSemaphoreSlim = new SemaphoreSlim(1, 1);
 
-        private static IDeserializer YamlDeserializer = new DeserializerBuilder().IgnoreUnmatchedProperties().Build();
+        internal static ISerializer YamlSerializer = new SerializerBuilder().Build();
+        internal static IDeserializer YamlDeserializer = new DeserializerBuilder().IgnoreUnmatchedProperties().Build();
 
         static App() 
         {
@@ -57,6 +63,7 @@ namespace Acmion.CommunicatorCms.Core.Application
 
             await HandleChangedAppPages(htmlHelper);
             await HandleChangedAppExtensions(htmlHelper);
+            await HandleChangedTranslationFiles();
         }
 
         private static async Task Launch(IHtmlHelper htmlHelper)
@@ -68,6 +75,7 @@ namespace Acmion.CommunicatorCms.Core.Application
             try
             {
                 await ExtensionHandler.LoadAppExtensions(htmlHelper);
+                await TranslationHandler.LoadTranslations();
             }
             finally
             {
@@ -78,8 +86,7 @@ namespace Acmion.CommunicatorCms.Core.Application
         private static async Task HandleChangedAppPages(IHtmlHelper htmlHelper)
         {
             // Just an extra check so that unnecessary semaphore is avoided
-            if (PageWatcher.CmsPageWatcherFailed || PageWatcher.ContentPageWatcherFailed ||
-                PageWatcher.CmsChangedPageUrls.Count > 0 || PageWatcher.ContentChangedPageUrls.Count > 0)
+            if (PageWatcher.PageWatcherFailed || PageWatcher.ChangedPageUrls.Count > 0)
             {
                 await PageSemaphoreSlim.WaitAsync();
 
@@ -87,20 +94,15 @@ namespace Acmion.CommunicatorCms.Core.Application
 
                 try
                 {
-                    if (PageWatcher.CmsPageWatcherFailed || PageWatcher.ContentPageWatcherFailed)
+                    if (PageWatcher.PageWatcherFailed)
                     {
                         PageHandler.AppPagesByUrl.Clear();
 
-                        PageWatcher.CmsPageWatcherFailed = false;
-                        PageWatcher.ContentPageWatcherFailed = false;
-
-                        PageWatcher.CmsChangedPageUrls.Clear();
-                        PageWatcher.ContentChangedPageUrls.Clear();
+                        PageWatcher.PageWatcherFailed = false;
+                        PageWatcher.ChangedPageUrls.Clear();
                     }
 
-                    var allPageUrls = PageWatcher.ContentChangedPageUrls.Concat(PageWatcher.CmsChangedPageUrls);
-
-                    foreach (var kvp in allPageUrls)
+                    foreach (var kvp in PageWatcher.ChangedPageUrls)
                     {
                         var pageUrl = kvp.Key;
 
@@ -125,13 +127,12 @@ namespace Acmion.CommunicatorCms.Core.Application
                             {
                                 var parentPage = await Pages.GetByUrl(parentUrl);
 
-                                await parentPage.Reload();
+                                await parentPage.Reload(false);
                             }
                         }
                     }
 
-                    PageWatcher.CmsChangedPageUrls.Clear();
-                    PageWatcher.ContentChangedPageUrls.Clear();
+                    PageWatcher.ChangedPageUrls.Clear();
                 }
                 finally
                 {
@@ -186,6 +187,41 @@ namespace Acmion.CommunicatorCms.Core.Application
 
         }
 
+        private static async Task HandleChangedTranslationFiles()
+        {
+            // Just an extra check so that unnecessary semaphore is avoided
+            if (TranslationWatcher.WatcherFailed || TranslationWatcher.ChangedFileUrls.Count > 0)
+            {
+                await TranslationSemaphoreSlim.WaitAsync();
+
+                // Only one thread can execute this at a time
+
+                try
+                {
+                    if (TranslationWatcher.WatcherFailed)
+                    {
+                        TranslationHandler.Translations.Clear();
+
+                        TranslationWatcher.WatcherFailed = false;
+                        TranslationWatcher.ChangedFileUrls.Clear();
+                    }
+
+                    foreach (var kvp in TranslationWatcher.ChangedFileUrls)
+                    {
+                        var url = kvp.Key;
+
+                        await TranslationHandler.LoadTranslationFileFromAppUrl(url);
+                    }
+
+                    TranslationWatcher.ChangedFileUrls.Clear();
+                }
+                finally
+                {
+                    TranslationSemaphoreSlim.Release();
+                }
+            }
+
+        }
 
     }
 }

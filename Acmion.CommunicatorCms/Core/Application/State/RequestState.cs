@@ -26,7 +26,6 @@ namespace Acmion.CommunicatorCms.Core
         public AppPage CurrentAppPage { get; private set; } = null!;
         public AppPage CurrentRootAppPage { get; private set; } = null!;
 
-        public dynamic Parameters { get; private set; } = new ExpandoObject();
         public string[] ParameterValues { get; private set; } = new string[0];
         public string[] ParameterKeys => CurrentAppPage.ParameterKeys;
         public Dictionary<string, string> ParameterDictionary { get; private set; } = new Dictionary<string, string>();
@@ -66,8 +65,6 @@ namespace Acmion.CommunicatorCms.Core
 
             Language = GetLanguage();
 
-            var parametersCollection = (ICollection<KeyValuePair<string, object>>)Parameters;
-
             for (var i = 0; i < parameterValues.Length; i++) 
             {
                 // Keys should be reversed, because if only one parameter is specified, then it is the last
@@ -75,14 +72,17 @@ namespace Acmion.CommunicatorCms.Core
                 var val = parameterValues[i];
 
                 ParameterDictionary[key] = val;
-                parametersCollection.Add(new KeyValuePair<string, object>(key, val));
             }
-
         }
 
         public async Task<AppPage> GetCurrentPage() 
         {
             return await App.Pages.GetByUrl(Url);
+        }
+
+        public string Translate(string key) 
+        {
+            return App.TranslationHandler.Translate(key, Language.Id);
         }
 
         public string TranslateUrl(string languageId) 

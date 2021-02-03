@@ -12,25 +12,17 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages
 
     public class AppPageWatcher
     {
-        public bool CmsPageWatcherFailed { get; set; }
-        public bool ContentPageWatcherFailed { get; set; }
+        public bool PageWatcherFailed { get; set; }
 
-        public ConcurrentDictionary<string, bool> CmsChangedPageUrls { get; } = new ConcurrentDictionary<string, bool>();
-        public ConcurrentDictionary<string, bool> ContentChangedPageUrls { get; } = new ConcurrentDictionary<string, bool>();
+        public ConcurrentDictionary<string, bool> ChangedPageUrls { get; } = new ConcurrentDictionary<string, bool>();
 
-        public FileSystemWatcher CmsPageWatcher { get; }
-        public FileSystemWatcher ContentPageWatcher { get; }
-
-        public FileSystemWatcher CmsPageFileWatcher { get; }
-        public FileSystemWatcher ContentPageFileWatcher { get; }
+        public FileSystemWatcher PageWatcher { get; }
+        public FileSystemWatcher PageFileWatcher { get; }
 
         public AppPageWatcher()
         {
-            CmsPageWatcher = CreatePageWatcher(UrlSettings.CmsRootUrl, CmsPageChanged, CmsPageDeleted, CmsPageRenamed, CmsPageWatcherError);
-            ContentPageWatcher = CreatePageWatcher(UrlSettings.ContentRootUrl, ContentPageChanged, ContentPageDeleted, ContentPageRenamed, ContentPageWatcherError);
-
-            CmsPageFileWatcher = CreatePageFileWatcher(UrlSettings.CmsRootUrl, CmsPageChanged, CmsPageDeleted, CmsPageRenamed, CmsPageWatcherError);
-            ContentPageFileWatcher = CreatePageFileWatcher(UrlSettings.ContentRootUrl, ContentPageChanged, ContentPageDeleted, ContentPageRenamed, ContentPageWatcherError);
+            PageWatcher = CreatePageWatcher(UrlSettings.ContentRootUrl, PageChanged, PageDeleted, PageRenamed, PageWatcherError);
+            PageFileWatcher = CreatePageFileWatcher(UrlSettings.ContentRootUrl, PageChanged, PageDeleted, PageRenamed, PageWatcherError);
         }
 
         private FileSystemWatcher CreatePageWatcher(string url, FileSystemEventHandler onChanged, FileSystemEventHandler onDeleted, RenamedEventHandler onRenamed, ErrorEventHandler onError)
@@ -72,48 +64,30 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages
             return propertiesWatcher;
         }
 
-        private void CmsPageDeleted(object sender, FileSystemEventArgs e)
+        private void PageDeleted(object sender, FileSystemEventArgs e)
         {
-            AddChangedPage(e.FullPath, sender, CmsChangedPageUrls);
-        }
-        private void ContentPageDeleted(object sender, FileSystemEventArgs e)
-        {
-            AddChangedPage(e.FullPath, sender, ContentChangedPageUrls);
+            AddChangedPage(e.FullPath, sender, ChangedPageUrls);
         }
 
-        private void CmsPageRenamed(object sender, RenamedEventArgs e)
+        private void PageRenamed(object sender, RenamedEventArgs e)
         {
-            AddChangedPage(e.OldFullPath, sender, CmsChangedPageUrls);
-        }
-        private void ContentPageRenamed(object sender, RenamedEventArgs e)
-        {
-            AddChangedPage(e.OldFullPath, sender, ContentChangedPageUrls);
+            AddChangedPage(e.OldFullPath, sender, ChangedPageUrls);
         }
 
-        private void CmsPageChanged(object sender, FileSystemEventArgs e)
+        private void PageChanged(object sender, FileSystemEventArgs e)
         {
-            AddChangedPage(e.FullPath, sender, CmsChangedPageUrls);
-        }
-        private void ContentPageChanged(object sender, FileSystemEventArgs e)
-        {
-            AddChangedPage(e.FullPath, sender, ContentChangedPageUrls);
+            AddChangedPage(e.FullPath, sender, ChangedPageUrls);
         }
 
-        private void CmsPageWatcherError(object sender, ErrorEventArgs e)
+        private void PageWatcherError(object sender, ErrorEventArgs e)
         {
-            CmsPageWatcherFailed = true;
-        }
-        private void ContentPageWatcherError(object sender, ErrorEventArgs e)
-        {
-            ContentPageWatcherFailed = true;
+            PageWatcherFailed = true;
         }
 
         private void AddChangedPage(string fullPath, object sender, ConcurrentDictionary<string, bool> changedPageUrls)
         {
             var replaced = fullPath.Replace('\\', '/');
             var pageUrl = AppPath.ConvertAbsolutePathToAppUrl(replaced);
-
-            var directoryEvent = sender == CmsPageWatcher || sender == ContentPageWatcher;
 
             if (!AppPage.IsUrlAppPage(pageUrl))
             {

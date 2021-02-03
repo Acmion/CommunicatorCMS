@@ -1,3 +1,9 @@
 ﻿@page
 
 <h1>Home (Language 0)</h1>
+
+Translation test: @App.TranslationHandler.Translate("HelloWorld", "lang0")
+<br />
+Translation test2: @RequestState.Translate("HelloWorld")
+<br />
+Translation test2: @RequestState.Translate("INVALID KEY")

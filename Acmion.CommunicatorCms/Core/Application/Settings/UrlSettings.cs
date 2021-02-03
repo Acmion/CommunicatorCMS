@@ -22,7 +22,8 @@ namespace Acmion.CommunicatorCms.Core.Settings
         public static string ContentRootUrl { get; } = "/";
 
         public static string ContentSecondClassUrl { get; } = "/++";
-        
+        public static string ContentSecondClassTranslationsRootUrl { get; } = "/++/translations";
+
         public static string ContentSecondClassHeadFileUrl { get; } = "/++/head.cshtml";
         public static string ContentSecondClassHeadAppendFileUrl { get; } = "/++/head-append.cshtml";
         public static string ContentSecondClassHeadPrependFileUrl { get; } = "/++/head-prepend.cshtml";

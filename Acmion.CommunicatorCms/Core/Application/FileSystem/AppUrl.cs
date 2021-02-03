@@ -18,10 +18,6 @@ namespace Acmion.CommunicatorCms.Core.Application.FileSystem
         public static string[] UnservableContainsStrings = { "/_", "/.git" };
         public static string[] UnservableEndsWithStrings = { ".cshtml" };
 
-        public static bool IsCmsUrl(string url) 
-        {
-            return url.StartsWith(UrlSettings.CmsRootUrl);
-        }
         public static string ConvertAspNetCoreUrlToActualUrl(string url)
         {
             if (url.StartsWith("~/"))
@@ -32,6 +28,11 @@ namespace Acmion.CommunicatorCms.Core.Application.FileSystem
             if (url.StartsWith(GeneralSettings.RazorPagesRootAppPath)) 
             {
                 url = url.ReplaceFirst(GeneralSettings.RazorPagesRootAppPath, "");
+            }
+
+            if (url.EndsWith(AppPageSettings.IndexUrl)) 
+            {
+                url = url.Substring(0, url.Length - AppPageSettings.IndexUrl.Length);
             }
 
             var indexOfWwwRoot = url.IndexOf(GeneralSettings.WwwRootAppPath);
@@ -49,11 +50,6 @@ namespace Acmion.CommunicatorCms.Core.Application.FileSystem
         }
         public static string ConvertToAbsolutePath(string url)
         {
-            if (IsCmsUrl(url))
-            {
-                return AppPath.Join(CommunicatorCmsConfiguration.CmsAbsolutePath, ConvertToAppPath(url));
-            }
-
             return AppPath.Join(CommunicatorCmsConfiguration.AppAbsolutePath, ConvertToAppPath(url));
         }
 
@@ -129,7 +125,14 @@ namespace Acmion.CommunicatorCms.Core.Application.FileSystem
         }
         public static string[] GetFiles(string url, string searchPattern = "*.*", SearchOption searchOption = SearchOption.TopDirectoryOnly)
         {
-            return AppDirectory.GetFiles(ConvertToAppPath(url), searchPattern, searchOption);
+            var files = AppDirectory.GetFiles(ConvertToAppPath(url), searchPattern, searchOption);
+
+            for (var i = 0; i < files.Length; i++)
+            {
+                files[i] = AppPath.ConvertToAppUrl(files[i]);
+            }
+
+            return files;
         }
 
         public static async Task<string> ReadAllTextAsync(string url) 

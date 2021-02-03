@@ -166,14 +166,14 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages
             return currentUrl;
         }
 
-        public async Task Reload()
+        public async Task Reload(bool reloadSubPages = true)
         {
             _subPages = null;
             _contentFileAppPaths = null;
 
             await LoadProperties();
 
-            if (Properties != AppPagePropertiesDefault) 
+            if (reloadSubPages && Properties != AppPagePropertiesDefault) 
             {
                 await ReloadSubPagePropertiesRecursively();
             }
@@ -295,6 +295,7 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages
         private async Task LoadProperties() 
         {
             // TODO: Split into sepearate Try Catch.
+            // TODO: Maybe remove InheritanceUrl, bc, now InheritanceUrl is checked from uniherited Properties, thus InheritanceUrl is not inherited.
             try
             {
                 var properties = await LoadPropertiesFromUrl<AppPageProperties>(PageUrl, AppPageSettings.PropertiesFileName);
@@ -308,23 +309,17 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages
                 PropertiesExtra = propertiesExtra;
 
                 // Inheritance
-                var realInheritanceRootUrl = "";
+                var realInheritanceRootUrl = properties.InheritanceRootUrl;
                 if (properties.InheritanceRootUrl == "")
                 {
-                    realInheritanceRootUrl = "/";
-                }
-                else if (properties.InheritanceRootUrl.StartsWith('/'))
-                {
-                    realInheritanceRootUrl = properties.InheritanceRootUrl;
+                    // Inherit self
+                    realInheritanceRootUrl = PageUrl;
                 }
                 else if (properties.InheritanceRootUrl.StartsWith('.'))
                 {
                     // Covers both .. and .
+                    // TODO: FIX
                     realInheritanceRootUrl = AppPath.ConvertAbsolutePathToAppUrl(Path.GetFullPath(AppUrl.ConvertToAbsolutePath(PageUrl) + "/" + properties.InheritanceRootUrl));
-                }
-                else 
-                {
-                    realInheritanceRootUrl = PageUrl + "/" + properties.InheritanceRootUrl;
                 }
 
                 if (PageUrl.StartsWith(realInheritanceRootUrl)) 
@@ -332,17 +327,34 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages
                     // Currently this loads all YAML files.
                     // Maybe better to use cached pages??
 
-                    var splitPageUrl = realInheritanceRootUrl.Split('/').Skip(1);
 
-                    var currentPropertyDictionary = new Dictionary<string, object>();
+                    // Off by 1, but does not matter, since those chars still == "/", which is being split on
+                    var relativePageUrlFromInheritanceRootUrl = PageUrl.Substring(realInheritanceRootUrl.Length, PageUrl.Length - realInheritanceRootUrl.Length);
 
-                    foreach (var split in splitPageUrl)
+                    var splitRelativePageUrl = relativePageUrlFromInheritanceRootUrl.Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+                    var currentPropertyDictionary = await LoadPropertiesDictionaryFromUrl(realInheritanceRootUrl, AppPageSettings.PropertiesMasterFileName);
+
+                    var currentUrl = realInheritanceRootUrl;
+
+                    foreach (var split in splitRelativePageUrl)
                     {
-                        var currentUrl = "/" + split;
+                        currentUrl += "/" + split;
 
                         currentPropertyDictionary = MergePropertyDictionaries(currentPropertyDictionary, await LoadPropertiesDictionaryFromUrl(currentUrl, AppPageSettings.PropertiesMasterFileName));
                     }
 
+                    // Override all inherited properties with those in the main properties file.
+                    currentPropertyDictionary = MergePropertyDictionaries(currentPropertyDictionary, await LoadPropertiesDictionaryFromUrl(PageUrl, AppPageSettings.PropertiesFileName));
+
+                    // TODO: FIX
+                    // UGLY AF
+                    // MAYBE SWITCH TO REFLECTION??
+                    var serialized = App.YamlSerializer.Serialize(currentPropertyDictionary);
+                    Properties = App.YamlDeserializer.Deserialize<AppPageProperties>(serialized);
+
+                    /*
+                    DOES NOT WORK!!
                     foreach (var property in AppPageProperties.WriteableProperties)
                     {
                         if (currentPropertyDictionary.TryGetValue(property.Name, out var value))
@@ -350,16 +362,17 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages
                             property.SetValue(Properties, Convert.ChangeType(value, property.PropertyType));
                         }
                     }
+                    */
 
                 }
             }
-            catch
+            catch (Exception e)
             {
 
             }
         }
 
-        private Dictionary<string, object> MergePropertyDictionaries(Dictionary<string, object> basePropertyDictionary, Dictionary<string, object> overridingPropertyDictionary) 
+        private Dictionary<object, object> MergePropertyDictionaries(Dictionary<object, object> basePropertyDictionary, Dictionary<object, object> overridingPropertyDictionary) 
         {
             foreach (var kvp in overridingPropertyDictionary) 
             {
@@ -385,20 +398,20 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages
             return new T();
         }
 
-        private async Task<Dictionary<string, object>> LoadPropertiesDictionaryFromUrl(string url, string propertiesFileName) 
+        private async Task<Dictionary<object, object>> LoadPropertiesDictionaryFromUrl(string url, string propertiesFileName) 
         {
             var propertiesFileUrl = AppPath.Join(url, propertiesFileName);
 
             if (AppUrl.Exists(propertiesFileUrl))
             {
-                var propertiesCandidate = YamlDeserializer.Deserialize<Dictionary<string, object>>(await AppUrl.ReadAllTextAsync(propertiesFileUrl));
+                var propertiesCandidate = YamlDeserializer.Deserialize<Dictionary<object, object>>(await AppUrl.ReadAllTextAsync(propertiesFileUrl));
                 if (propertiesCandidate != null)
                 {
                     return propertiesCandidate;
                 }
             }
 
-            return new Dictionary<string, object>();
+            return new Dictionary<object, object>();
         }
 
 

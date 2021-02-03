@@ -21,6 +21,10 @@ namespace Acmion.CommunicatorCms.Core.Application
         public Language[] Languages { get; set; } = new Language[0];
         public string[] RootPageUrls { get; set; } = new string[] { "/" };
 
+        public string SignInUrl { get; set; } = "/sign-in";
+        public string NotAuthorizedUrl { get; set; } = "/not-authorized";
+        public string ReturnUrlParameter { get; set; } = "return-url";
+
         public string[][] TranslatedUrlLists { get; set; } = { new string[0] };
 
         private Dictionary<string, string[]> _urlTranslations = null!;

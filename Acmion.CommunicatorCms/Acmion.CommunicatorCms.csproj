@@ -14,12 +14,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <Compile Remove="Core\Application\Functions\**" />
+    <Content Remove="Core\Application\Functions\**" />
+    <EmbeddedResource Remove="Core\Application\Functions\**" />
+    <None Remove="Core\Application\Functions\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\Application\Functions\" />
-    <Folder Include="wwwroot\" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>

@@ -5,8 +5,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Acmion.CommunicatorCms;
 using Acmion.CommunicatorCms.Core;
+using Acmion.CommunicatorCms.Core.Application;
 using Acmion.CommunicatorCms.Core.Application.UrlRewrite;
 using Acmion.CommunicatorCms.Core.Settings;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -31,6 +33,16 @@ namespace SampleApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(opt =>
+            {
+                opt.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict;
+                opt.SlidingExpiration = true;
+                opt.ExpireTimeSpan = new TimeSpan(24, 0, 0);
+                opt.AccessDeniedPath = App.Settings.NotAuthorizedUrl;
+                opt.ReturnUrlParameter = App.Settings.ReturnUrlParameter;
+                opt.LoginPath = App.Settings.SignInUrl;
+            });
+
             services.AddControllers();
 
             services.AddRazorPages().AddRazorRuntimeCompilation().AddRazorRuntimeCompilation(options =>
@@ -39,12 +51,16 @@ namespace SampleApplication
                 options.FileProviders.Add(new PhysicalFileProvider(libraryPath));
             });
 
+            services.AddHttpContextAccessor();
+
             ConfigureCommunicatorCmsServices(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseAuthentication();
+
             ConfigureCommunicatorCms(app, env);
 
             if (env.IsDevelopment())
