@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Acmion.CommunicatorCms;
 using Acmion.CommunicatorCms.Core;
 using Acmion.CommunicatorCms.Core.Application;
+using Acmion.CommunicatorCms.Core.Application.Auhtorization;
+using Acmion.CommunicatorCms.Core.Application.StaticFiles;
 using Acmion.CommunicatorCms.Core.Application.UrlRewrite;
 using Acmion.CommunicatorCms.Core.Settings;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -51,17 +53,18 @@ namespace SampleApplication
                 options.FileProviders.Add(new PhysicalFileProvider(libraryPath));
             });
 
+            services.AddHttpClient();
             services.AddHttpContextAccessor();
-
-            ConfigureCommunicatorCmsServices(services);
+            services.AddScoped<RequestState>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseAuthentication();
 
-            ConfigureCommunicatorCms(app, env);
+            CommunicatorCmsConfiguration.Main(Program.RootPath);
+
+            app.UseMiddleware<UrlRewriteHandler>();
 
             if (env.IsDevelopment())
             {
@@ -76,52 +79,18 @@ namespace SampleApplication
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileHandler(env.IsDevelopment() ? TimeSpan.FromSeconds(10) : TimeSpan.FromDays(1), true));
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+            app.UseMiddleware<AuthorizationHandler>();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
                 endpoints.MapRazorPages();
-            });
-        }
-
-        public void ConfigureCommunicatorCmsServices(IServiceCollection services) 
-        {
-            services.AddHttpClient();
-            services.AddHttpContextAccessor();
-            services.AddScoped<RequestState>();
-        }
-
-        public void ConfigureCommunicatorCms(IApplicationBuilder app, IWebHostEnvironment env) 
-        {
-            CommunicatorCmsConfiguration.Main(Program.RootPath);
-
-            app.UseMiddleware<UrlRewriteHandler>();
-
-            var staticFileCacheTimeSpan = TimeSpan.FromDays(1);
-
-            if (env.IsDevelopment())
-            {
-                staticFileCacheTimeSpan = TimeSpan.FromMinutes(1);
-            }
-
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(Path.Join(Program.RootPath, GeneralSettings.RazorPagesRootAppPath)),
-                RequestPath = "",
-                OnPrepareResponse = ctx =>
-                {
-                    var headers = ctx.Context.Response.GetTypedHeaders();
-                    headers.CacheControl = new CacheControlHeaderValue
-                    {
-                        Public = true,
-                        MaxAge = staticFileCacheTimeSpan
-                    };
-                },
-                ServeUnknownFileTypes = true, // Security risk according to https://docs.microsoft.com/en-us/aspnet/core/fundamentals/static-files?view=aspnetcore-3.1, but unlikely
             });
         }
     }

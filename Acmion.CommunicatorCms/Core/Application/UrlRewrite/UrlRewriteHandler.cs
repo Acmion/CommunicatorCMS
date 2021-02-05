@@ -22,7 +22,7 @@ namespace Acmion.CommunicatorCms.Core.Application.UrlRewrite
             _next = next;
         }
 
-        public async Task Invoke(HttpContext context, RequestState requestState, IHttpContextAccessor httpContextAccessor)
+        public async Task Invoke(HttpContext context, RequestState requestState)
         {
             var customRewrittenRequest = App.UrlRewriteCustom.Rewrite(context.Request.Path.Value, context.Request.QueryString.Value);
 
@@ -55,39 +55,6 @@ namespace Acmion.CommunicatorCms.Core.Application.UrlRewrite
                 }
 
                 var currentAppPage = await App.Pages.GetByUrl(actualAppPageUrl);
-
-                if (currentAppPage.Properties.Authorization.Roles.Count > 0) 
-                {
-                    var httpContext = httpContextAccessor.HttpContext;
-
-
-                    if (httpContext == null)
-                    {
-                        // Some error, should never happen, but kill just in case.
-                        return;
-                    }
-
-                    if (httpContext.User.Identity == null || !httpContext.User.Identity.IsAuthenticated) 
-                    {
-                        // Not signed in. Not permanent redirect
-                        context.Response.StatusCode = StatusCodes.Status302Found;
-                        context.Response.Redirect(App.Settings.SignInUrl + "?" + App.Settings.ReturnUrlParameter + "=" + WebUtility.UrlEncode(requestedUrl + requestedQuery));
-                        return;
-                    }
-                    else
-                    {
-                        foreach (var role in currentAppPage.Properties.Authorization.Roles)
-                        {
-                            if (!httpContext.User.IsInRole(role))
-                            {
-                                // Not authorized. Not permanent redirect
-                                context.Response.StatusCode = StatusCodes.Status302Found;
-                                context.Response.Redirect(App.Settings.NotAuthorizedUrl + "?" + App.Settings.ReturnUrlParameter + "=" + WebUtility.UrlEncode(requestedUrl + requestedQuery));
-                                return;
-                            }
-                        }
-                    }
-                }
 
                 // Store the state requestState
                 await requestState.Initialize(requestedUrl, requestedQuery, baseUrlAndParameterValues.ParameterValues, currentAppPage);
