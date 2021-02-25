@@ -38,6 +38,8 @@ namespace Acmion.CommunicatorCms.Core.Application.UrlRewrite
                 return;
             }
 
+            context.Request.Path = new PathString(requestedUrl);
+
             if (context.Request.QueryString.Value != requestedQuery)
             {
                 context.Request.QueryString = new QueryString(requestedQuery);

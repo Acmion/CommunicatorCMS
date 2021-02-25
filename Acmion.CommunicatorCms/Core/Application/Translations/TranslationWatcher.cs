@@ -18,7 +18,7 @@ namespace Acmion.CommunicatorCms.Core.Application.Translations
 
         public TranslationWatcher()
         {
-            Watcher = CreateWatcher(UrlSettings.ContentRootUrl, PageChanged, PageDeleted, PageRenamed, PageWatcherError);
+            Watcher = CreateWatcher(UrlSettings.ContentSecondClassTranslationsRootUrl, PageChanged, PageDeleted, PageRenamed, PageWatcherError);
         }
 
         private FileSystemWatcher CreateWatcher(string url, FileSystemEventHandler onChanged, FileSystemEventHandler onDeleted, RenamedEventHandler onRenamed, ErrorEventHandler onError)

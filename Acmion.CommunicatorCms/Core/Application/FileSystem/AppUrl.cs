@@ -184,16 +184,27 @@ namespace Acmion.CommunicatorCms.Core.Application.FileSystem
                 }
             }
         }
-        public static List<string> AllPartialUrls(string url) 
+        public static string[] AllPartialUrls(string url) 
         {
+            // TODO: Fix this ugly shit.
+
+            var startsWithSeparator = url.StartsWith(Separator);
+            var startsWithSeparatorOffset = (startsWithSeparator ? 1 : 0);
+
             var current = "";
             var split = url.Split(Separator, StringSplitOptions.RemoveEmptyEntries);
-            var allPartialUrls = new List<string>(split.Length);
+            var allPartialUrls = new string[split.Length + startsWithSeparatorOffset];
 
-            foreach (var part in split) 
+            if (startsWithSeparator) 
             {
-                current += part;
-                allPartialUrls.Add(current);
+                current = "/";
+                allPartialUrls[0] = current;
+            }
+
+            for (var i = 0; i < split.Length; i++) 
+            {
+                current += split[i] + "/";
+                allPartialUrls[i + startsWithSeparatorOffset] = current;
             }
 
             return allPartialUrls;

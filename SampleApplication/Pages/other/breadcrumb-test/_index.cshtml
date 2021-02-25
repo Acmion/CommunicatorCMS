@@ -1,0 +1,10 @@
+﻿@page
+
+<h1>Breadcrumb Test</h1>
+
+@foreach (var bi in RequestState.Breadcrumb.BreadcrumbItems) 
+{
+    <p>
+        @bi.Title : @bi.Url
+    </p>
+}

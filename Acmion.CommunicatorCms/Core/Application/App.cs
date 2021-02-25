@@ -20,6 +20,8 @@ namespace Acmion.CommunicatorCms.Core.Application
         public static dynamic Extensions => ExtensionHandler.Extensions;
 
         public static AppSettings Settings { get; private set; } = new AppSettings();
+        public static AppSettingsWatcher SettingsWatcher { get; private set; } = new AppSettingsWatcher();
+
         public static ThemeSettings ThemeSettings { get; private set; } = new ThemeSettings();
 
         public static AppPageHandler PageHandler { get; } = new AppPageHandler();
@@ -36,6 +38,7 @@ namespace Acmion.CommunicatorCms.Core.Application
         private static bool Launched { get; set; }
         private static SemaphoreSlim PageSemaphoreSlim = new SemaphoreSlim(1, 1);
         private static SemaphoreSlim ExtensionSemaphoreSlim = new SemaphoreSlim(1, 1);
+        private static SemaphoreSlim SettingsSemaphoreSlim = new SemaphoreSlim(1, 1);
         private static SemaphoreSlim TranslationSemaphoreSlim = new SemaphoreSlim(1, 1);
 
         internal static ISerializer YamlSerializer = new SerializerBuilder().Build();
@@ -43,13 +46,18 @@ namespace Acmion.CommunicatorCms.Core.Application
 
         static App() 
         {
-            var appSettingsContent = AppFile.ReadAllText(AppPath.Join(GeneralSettings.RazorPagesRootAppPath, UrlSettings.ContentSecondClassUrl, "_settings.yaml"));
-            Settings = YamlDeserializer.Deserialize<AppSettings>(appSettingsContent);
-
-            Settings.Initialize();
+            LoadSettings().Wait();
 
             var themeSettingsContent = AppFile.ReadAllText(AppPath.Join(GeneralSettings.RazorPagesRootAppPath, UrlSettings.ContentThirdClassThemesUrl, Settings.Theme, "_settings.yaml"));
             ThemeSettings = YamlDeserializer.Deserialize<ThemeSettings>(themeSettingsContent);
+        }
+
+        public static async Task LoadSettings() 
+        {
+            var appSettingsContent = await AppFile.ReadAllTextAsync(AppPath.Join(GeneralSettings.RazorPagesRootAppPath, UrlSettings.ContentSecondClassUrl, "_settings.yaml"));
+            Settings = YamlDeserializer.Deserialize<AppSettings>(appSettingsContent);
+
+            Settings.Initialize();
         }
 
         public static async Task OnRequestStart(IHtmlHelper htmlHelper)
@@ -63,6 +71,8 @@ namespace Acmion.CommunicatorCms.Core.Application
 
             await HandleChangedAppPages(htmlHelper);
             await HandleChangedAppExtensions(htmlHelper);
+
+            await HandleChangedSettingsFile();
             await HandleChangedTranslationFiles();
         }
 
@@ -187,6 +197,28 @@ namespace Acmion.CommunicatorCms.Core.Application
 
         }
 
+        private static async Task HandleChangedSettingsFile()
+        {
+            // Just an extra check so that unnecessary semaphore is avoided
+            if (SettingsWatcher.WatcherFailed || SettingsWatcher.FileChanged)
+            {
+                await SettingsSemaphoreSlim.WaitAsync();
+
+                // Only one thread can execute this at a time
+
+                try
+                {
+                    await LoadSettings();
+                    SettingsWatcher.WatcherFailed = false;
+                    SettingsWatcher.FileChanged = false;
+                }
+                finally
+                {
+                    SettingsSemaphoreSlim.Release();
+                }
+            }
+
+        }
         private static async Task HandleChangedTranslationFiles()
         {
             // Just an extra check so that unnecessary semaphore is avoided
@@ -222,6 +254,7 @@ namespace Acmion.CommunicatorCms.Core.Application
             }
 
         }
+
 
     }
 }
