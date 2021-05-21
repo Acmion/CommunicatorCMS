@@ -41,8 +41,8 @@ namespace Acmion.CommunicatorCms.Core.Settings
         public static string ContentSecondClassScriptsPrependFileUrl { get; } = "/++/scripts-prepend.cshtml";
 
         public static string ContentSecondClassMenuTopUrl { get; } = "/++/menu-top.cshtml";
-        public static string ContentSecondClassMenuLeftUrl { get; } = "/++/menu-side.cshtml";
-        public static string ContentSecondClassMenuRightUrl { get; } = "/++/menu-side.cshtml";
+        public static string ContentSecondClassMenuLeftUrl { get; } = "/++/menu-left.cshtml";
+        public static string ContentSecondClassMenuRightUrl { get; } = "/++/menu-right.cshtml";
 
         public static string ContentThirdClassUrl { get; } = "/+++";
         public static string ContentThirdClassApiUrl { get; } = "/+++/api";

@@ -35,7 +35,7 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages
         public AppPageProperties Properties { get; set; } = new AppPageProperties();
         public AppPageProperties PropertiesMaster { get; set; } = new AppPageProperties();
         public AppPagePropertiesNavItem PropertiesNavItem { get; set; } = new AppPagePropertiesNavItem();
-        public dynamic PropertiesExtra { get; set; } = 0;
+        public ExpandoObject PropertiesExtra { get; set; } = new ExpandoObject();
 
         public List<string> ContentFileAppPaths => GetContentFileAppPaths();
 
@@ -301,7 +301,7 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages
                 var properties = await LoadPropertiesFromUrl<AppPageProperties>(PageUrl, AppPageSettings.PropertiesFileName);
                 var propertiesMaster = await LoadPropertiesFromUrl<AppPageProperties>(PageUrl, AppPageSettings.PropertiesMasterFileName);
                 var propertiesNavItem = await LoadPropertiesFromUrl<AppPagePropertiesNavItem>(PageUrl, AppPageSettings.PropertiesNavItemFileName);
-                var propertiesExtra = await LoadPropertiesFromUrl<AppPagePropertiesExtra>(PageUrl, AppPageSettings.PropertiesExtraFileName);
+                var propertiesExtra = await LoadPropertiesFromUrl<ExpandoObject>(PageUrl, AppPageSettings.PropertiesExtraFileName);
 
                 Properties = properties;
                 PropertiesMaster = propertiesMaster;
