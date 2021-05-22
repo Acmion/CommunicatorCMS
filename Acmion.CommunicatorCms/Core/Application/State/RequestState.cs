@@ -78,16 +78,6 @@ namespace Acmion.CommunicatorCms.Core
             LogoContent = App.Settings.LogoContent;
             Theme = App.Settings.Theme;
 
-            // TEMP FIX
-            // TODO: SMTHN BETTER
-            for (var i = 0; i < PartialUrls.Length; i++) 
-            {
-                Breadcrumb.BreadcrumbItems[i].Url = PartialUrls[i];
-            }
-
-            Breadcrumb.BreadcrumbItems[^1].Url = Url;
-
-
         }
 
         public async Task<AppPage> GetCurrentPage() 

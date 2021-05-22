@@ -7,3 +7,8 @@ Translation test: @App.TranslationHandler.Translate("HelloWorld", "lang0")
 Translation test2: @RequestState.Translate("HelloWorld")
 <br />
 Translation test2: @RequestState.Translate("INVALID KEY")
+
+
+<p>
+    DOB: @RequestState.CurrentAppPage.PropertiesExtra.DateOfPublication
+</p>
