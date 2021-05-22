@@ -35,7 +35,7 @@ namespace Acmion.CommunicatorCms.Core.Application.Pages
         public AppPageProperties Properties { get; set; } = new AppPageProperties();
         public AppPageProperties PropertiesMaster { get; set; } = new AppPageProperties();
         public AppPagePropertiesNavItem PropertiesNavItem { get; set; } = new AppPagePropertiesNavItem();
-        public ExpandoObject PropertiesExtra { get; set; } = new ExpandoObject();
+        public dynamic PropertiesExtra { get; set; } = new ExpandoObject();
 
         public List<string> ContentFileAppPaths => GetContentFileAppPaths();
 
